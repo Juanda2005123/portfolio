@@ -1,0 +1,323 @@
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
+import { Button } from '@/components/ui/Button';
+import { LinkedInIcon, WhatsAppIcon } from '@/components/ui/Icons';
+import {
+  Mail,
+  FileText,
+  Code2,
+  GraduationCap,
+  MapPin,
+  Puzzle,
+  Rocket,
+  Brain,
+  Search,
+} from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const sidebarIconMap: Record<string, React.ReactNode> = {
+  code: <Code2 className="w-4 h-4 opacity-80" />,
+  graduation: <GraduationCap className="w-4 h-4 opacity-80" />,
+  map: <MapPin className="w-4 h-4 opacity-80" />,
+  typescript: (
+    <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold opacity-80">
+      TS
+    </span>
+  ),
+  puzzle: <Puzzle className="w-4 h-4 opacity-80" />,
+  rocket: <Rocket className="w-4 h-4 opacity-80" />,
+  brain: <Brain className="w-4 h-4 opacity-80" />,
+};
+
+interface HeroProps {
+  photoOrientation?: 'vertical' | 'horizontal';
+}
+
+export const Hero: React.FC<HeroProps> = ({
+  photoOrientation = 'vertical',
+}) => {
+  const { t } = useLanguage();
+  const { hero } = t;
+
+  const renderSocialIcon = (icon: string) => {
+    switch (icon) {
+      case 'linkedin':
+        return <LinkedInIcon className="w-4 h-4" />;
+      case 'email':
+        return <Mail className="w-4 h-4" />;
+      case 'whatsapp':
+        return <WhatsAppIcon className="w-4 h-4" />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <section
+      id="hero"
+      className="relative flex flex-col items-center justify-start overflow-hidden pt-28 sm:pt-36 md:pt-40"
+      style={{
+        background:
+          'linear-gradient(180deg, #090a0d 0%, #121318 14%, #1f191c 26%, #312320 38%, #382723 48%, #261a18 58%, #140d0e 68%, #08080a 76%, #08080a 100%)',
+      }}
+    >
+      {/* ========== LANDSCAPE LAYERS ========== */}
+
+      {/* Layer 1: Far mountains */}
+      <div
+        className="absolute left-0 right-0 w-full pointer-events-none z-[1]"
+        style={{
+          bottom: '310px',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 44%, transparent 58%)',
+          maskImage: 'linear-gradient(to bottom, black 0%, black 44%, transparent 58%)',
+        }}
+      >
+        <Image
+          src="/hero-bg-far.png"
+          alt="Distant mountain landscape"
+          width={2464}
+          height={909}
+          className="w-full h-auto object-cover object-bottom opacity-90"
+          priority
+        />
+      </div>
+
+      {/* Layer 2: Mid mountains */}
+      <div
+        className="absolute left-0 right-0 w-full pointer-events-none z-[2]"
+        style={{
+          bottom: '250px',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 58%, transparent 72%)',
+          maskImage: 'linear-gradient(to bottom, black 0%, black 58%, transparent 72%)',
+        }}
+      >
+        <Image
+          src="/hero-bg-mid.png"
+          alt="Mountain landscape mid layer"
+          width={2464}
+          height={848}
+          className="w-full h-auto object-cover object-bottom"
+          priority
+        />
+      </div>
+
+      {/* Layer 3: Foreground grass/moss with smooth seamless fade to pure black */}
+      <div
+        className="absolute left-0 right-0 w-full pointer-events-none z-[4]"
+        style={{ bottom: '235px' }}
+      >
+        <div className="relative w-full">
+          <Image
+            src="/hero-bg-front.png"
+            alt="Foreground grass and vegetation"
+            width={2464}
+            height={488}
+            className="w-full h-auto object-cover object-bottom"
+            style={{
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.5) 82%, transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.5) 82%, transparent 100%)',
+            }}
+            priority
+          />
+          {/* Smooth black transition starting in the lower part of the moss and extending down */}
+          <div className="absolute top-[75%] inset-x-0 h-[500px] bg-gradient-to-b from-transparent via-[#08080a] to-[#08080a]" />
+        </div>
+      </div>
+
+      {/* ========== CONTENT ========== */}
+      <div className="relative z-[3] flex flex-col items-center w-full max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Badge pill with mountain dusk warm accent (without dot) */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="mb-6"
+        >
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-[13px] font-normal text-[#edd3b4] bg-[#dcb991]/[0.08] border border-[#dcb991]/25 backdrop-blur-sm shadow-sm">
+            {hero.badge}
+          </span>
+        </motion.div>
+
+        {/* Main headline: Hey, I'm in glowing mountain bronze tone, Juan David Quintero in crisp white */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.08, ease: 'easeOut' }}
+          className="text-center max-w-3xl mb-4"
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-semibold tracking-tight text-white leading-[1.1]">
+            <span className="bg-gradient-to-r from-[#edd3b4] via-[#dcb991] to-[#c79c72] bg-clip-text text-transparent font-medium">
+              {hero.greeting}
+            </span>{' '}
+            {hero.name}.
+          </h1>
+        </motion.div>
+
+        {/* Subtitle */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+          className="text-center max-w-xl mb-9"
+        >
+          <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-normal">
+            {hero.subtitle}
+          </p>
+        </motion.div>
+
+        {/* CTA Button with generous spacing to let the hero breathe */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22, ease: 'easeOut' }}
+          className="flex items-center gap-3 mb-20 sm:mb-28 md:mb-32"
+        >
+          <a
+            href={`#${hero.primaryCta.targetId}`}
+            onClick={(e) => {
+              e.preventDefault();
+              document
+                .getElementById(hero.primaryCta.targetId)
+                ?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center px-7 py-2.5 rounded-full text-sm font-medium bg-[#fcf8f2] text-[#1a1410] border border-[#dcb991]/35 hover:bg-white transition-all duration-200 cursor-pointer shadow-[0_4px_25px_rgba(220,185,145,0.22)] hover:shadow-[0_4px_30px_rgba(220,185,145,0.35)] hover:scale-[1.02] active:scale-[0.98]"
+          >
+            {hero.primaryCta.text}
+          </a>
+        </motion.div>
+
+        {/* ========== FORA-STYLE APP CARD ========== */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+          className="w-full max-w-[940px] mx-auto"
+        >
+          <div
+            className="rounded-t-[28px] overflow-hidden border border-white/[0.12] backdrop-blur-[24px] shadow-[0_25px_80px_-15px_rgba(0,0,0,0.9)]"
+            style={{
+              backgroundColor: 'rgba(24, 24, 28, 0.94)',
+            }}
+          >
+            <div className="flex flex-col sm:flex-row min-h-[500px] sm:min-h-[580px] md:min-h-[620px]">
+              {/* Left sidebar */}
+              <div
+                className={`flex-shrink-0 p-5 sm:p-7 flex flex-col justify-start border-b sm:border-b-0 sm:border-r border-white/[0.08] bg-[#121216]/95 ${
+                  photoOrientation === 'vertical'
+                    ? 'sm:w-[340px] md:w-[380px]'
+                    : 'sm:w-[240px] md:w-[260px]'
+                }`}
+              >
+                {/* Sidebar header: JDQP on the left, Search on the right */}
+                <div className="flex items-center justify-between pb-5 mb-5 border-b border-white/[0.07]">
+                  <span className="text-sm font-semibold tracking-tight text-white/90">
+                    JDQP
+                  </span>
+                  <Search className="w-4 h-4 text-white/40 hover:text-white/80 transition-colors cursor-pointer" />
+                </div>
+
+                {/* Sidebar items */}
+                <div className="flex flex-col gap-1">
+                  {hero.sidebarItems.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3.5 px-3 py-2 rounded-xl text-white/80 text-[13px] hover:bg-white/[0.06] hover:text-white transition-all cursor-default group"
+                    >
+                      <span className="text-white/60 group-hover:text-white transition-colors shrink-0">
+                        {sidebarIconMap[item.icon] || (
+                          <Code2 className="w-4 h-4" />
+                        )}
+                      </span>
+                      <span className="font-normal tracking-tight truncate">
+                        {item.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right: Profile photo area (4:5 native aspect ratio) */}
+              <div className="flex-1 relative bg-zinc-950 overflow-hidden min-h-[420px] sm:min-h-[580px]">
+                {/* Full 4:5 photo */}
+                <Image
+                  src="/image_Juan_Hero.jpeg"
+                  alt={hero.profileAlt}
+                  fill
+                  className="object-cover object-center"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 560px"
+                />
+
+                {/* Subtle top & bottom vignettes for contrast and integration */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/40 z-[1] pointer-events-none" />
+
+                {/* Top Floating Glass Bar with Profile & Actions */}
+                <div className="absolute top-4 left-4 right-4 z-[2] p-3 sm:p-3.5 rounded-2xl bg-black/55 backdrop-blur-xl border border-white/15 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  {/* Avatar & Name */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-white text-zinc-950 font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
+                      JQ
+                    </div>
+                    <div>
+                      <p className="text-white text-xs sm:text-sm font-semibold leading-tight drop-shadow">
+                        {hero.profileCardName}
+                      </p>
+                      <p className="text-zinc-300 text-[11px] leading-tight drop-shadow">
+                        {hero.profileCardRole}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Action buttons: Download CV & Socials */}
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      href={hero.secondaryCta.url}
+                      target="_blank"
+                      icon={<FileText className="w-3.5 h-3.5" />}
+                      className="text-xs px-3.5 py-1.5 shadow-sm bg-[#fcf8f2] text-[#1a1410] hover:bg-white"
+                    >
+                      {hero.secondaryCta.text}
+                    </Button>
+
+                    {hero.socials.map((social) => (
+                      <Button
+                        key={social.name}
+                        variant="icon"
+                        href={social.url}
+                        target="_blank"
+                        aria-label={social.ariaLabel}
+                        className="p-2 bg-white/10 border-white/15 hover:bg-white/20 text-white"
+                      >
+                        {renderSocialIcon(social.icon)}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* ========== TRANSITION ZONE (MOSS FADING TO PURE BLACK) ========== */}
+      {/* Spacious calm dark expanse connecting Hero to About Me, with the Fora Intro pill */}
+      <div className="relative z-10 w-full flex flex-col items-center justify-center pt-36 sm:pt-48 md:pt-60 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-zinc-400 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991]" />
+          Intro
+        </motion.div>
+      </div>
+    </section>
+  );
+};
