@@ -17,25 +17,23 @@ import {
 
 // Custom navigation buttons for the Carousel
 const CustomCarouselNav = () => {
-  const { index, itemsCount, setIndex } = useCarousel();
+  const { canScrollPrev, canScrollNext, scrollPrev, scrollNext } = useCarousel();
   
   return (
     <div className="flex gap-3">
       <button
-        onClick={() => {
-          if (index > 0) setIndex(index - 1);
-        }}
-        disabled={index === 0}
-        className="flex items-center justify-center h-11 w-11 rounded-full border border-white/[0.1] bg-white/[0.02] text-white hover:bg-white/[0.08] hover:border-[#dcb991]/30 transition-all disabled:opacity-30 disabled:hover:bg-white/[0.02] disabled:hover:border-white/[0.1]"
+        onClick={scrollPrev}
+        disabled={!canScrollPrev}
+        aria-label="Anterior proyecto"
+        className="flex items-center justify-center h-11 w-11 rounded-full border border-white/[0.1] bg-white/[0.02] text-white hover:bg-white/[0.08] hover:border-[#dcb991]/30 transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:bg-white/[0.02] disabled:hover:border-white/[0.1]"
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
       <button
-        onClick={() => {
-          if (index < itemsCount - 1) setIndex(index + 1);
-        }}
-        disabled={index >= itemsCount - 1}
-        className="flex items-center justify-center h-11 w-11 rounded-full border border-white/[0.1] bg-white/[0.02] text-white hover:bg-white/[0.08] hover:border-[#dcb991]/30 transition-all disabled:opacity-30 disabled:hover:bg-white/[0.02] disabled:hover:border-white/[0.1]"
+        onClick={scrollNext}
+        disabled={!canScrollNext}
+        aria-label="Siguiente proyecto"
+        className="flex items-center justify-center h-11 w-11 rounded-full border border-white/[0.1] bg-white/[0.02] text-white hover:bg-white/[0.08] hover:border-[#dcb991]/30 transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:bg-white/[0.02] disabled:hover:border-white/[0.1]"
       >
         <ChevronRight className="h-5 w-5" />
       </button>
@@ -69,35 +67,32 @@ export const OtherProjects: React.FC = () => {
           <p className="text-zinc-400 text-sm sm:text-base leading-relaxed text-left lg:text-right max-w-sm mb-6 lg:mb-8">
             {otherProjects.subtitle}
           </p>
-          {/* Navigation will be extracted from inside the carousel */}
         </div>
       </div>
 
       {/* Carousel */}
       <div className="w-full">
-        <Carousel
-          className="w-full relative"
-          disableDrag={false}
-        >
+        <Carousel className="w-full relative">
           {/* Header Navigation for Carousel */}
           <div className="absolute -top-16 lg:-top-28 right-0 lg:right-4 z-10 hidden sm:block">
              <CustomCarouselNav />
           </div>
           
-          <CarouselContent className="px-2 pb-12 pt-4">
+          <CarouselContent className="gap-6 px-1 pb-12 pt-2">
             {otherProjects.projects.map((project) => (
-              <CarouselItem key={project.id} className="w-[85vw] sm:w-[320px] md:w-[380px] lg:w-[420px] shrink-0 mx-3">
+              <CarouselItem key={project.id} className="w-[85vw] sm:w-[340px] md:w-[380px] lg:w-[410px]">
                 <div className="group block relative w-full h-[480px] sm:h-[520px]">
                   <Card className="overflow-hidden h-full w-full rounded-2xl sm:rounded-3xl border border-white/[0.05] bg-[#0c0c0e] relative shadow-xl transition-all duration-500 group-hover:border-white/[0.1]">
                     
                     {/* Top Image Area */}
-                    <div className="relative h-[45%] w-full overflow-hidden">
+                    <div className="relative h-[45%] w-full overflow-hidden select-none">
                       <Image
                         width={600}
                         height={400}
                         src={project.image}
                         alt={project.title}
-                        className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                        draggable={false}
+                        className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105 pointer-events-none select-none"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-transparent" />
                       
