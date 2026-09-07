@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
 import { Project } from '@/content/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -200,11 +200,22 @@ const ProjectCardContent: React.FC<{
 // Helper: Linear interpolation
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-// Helper: Smooth sine ease for gentle, continuous motion without large jumps
-const ease = (t: number) => {
-  const clamped = Math.min(Math.max(t, 0), 1);
-  return 0.5 * (1 - Math.cos(Math.PI * clamped));
+// Ease-out cubic — rising cards decelerate into position naturally
+const easeOut = (t: number) => {
+  const c = Math.min(Math.max(t, 0), 1);
+  return 1 - Math.pow(1 - c, 3);
 };
+
+// Ease-in-out quadratic — smooth settling for stacked cards
+const easeInOut = (t: number) => {
+  const c = Math.min(Math.max(t, 0), 1);
+  return c < 0.5 ? 2 * c * c : 1 - Math.pow(-2 * c + 2, 2) / 2;
+};
+
+// Spring config for buttery smooth scroll-driven motion.
+// useSpring adds physics interpolation between discrete scroll ticks,
+// eliminating the "jerky" feeling from mouse wheel steps.
+const SPRING = { stiffness: 100, damping: 28, mass: 0.6 };
 
 export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -221,99 +232,105 @@ export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => 
     return () => window.removeEventListener('resize', updateHeight);
   }, []);
 
-  // Track the total scroll progress of the pinned section (0 to 1)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  // Optimized offscreen offset: sits just comfortably below the viewport fold (~650-750px)
-  // instead of an excessive 1250px, preventing large sudden jumps per scroll tick
-  const offscreenDistance = Math.round(viewportH * 0.68 + 100);
+  // Cards start well below the visible area (~850px below center).
+  // The sticky container uses overflow-visible so the cards appear from
+  // below the viewport fold when their phase starts.
+  const offscreenDistance = Math.round(viewportH * 0.75 + 100);
 
-  // Phase ranges: Continuous scroll with NO pauses — each card transition connects seamlessly to the next (0 -> 0.33, 0.33 -> 0.66, 0.66 -> 0.99)
-  // Card 0: Base card. Steps down and dims smoothly as subsequent cards stack over it
-  const y0 = useTransform(scrollYProgress, (p) => {
-    if (p <= 0.33) return lerp(0, -16, ease(p / 0.33));
-    if (p <= 0.66) return lerp(-16, -32, ease((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(-32, -48, ease((p - 0.66) / 0.33));
-    return -48;
+  // Spring config for buttery smooth scroll-driven motion.
+  const SPRING = { stiffness: 100, damping: 28, mass: 0.6 };
+
+  // ─── Card 0: always visible first, eases DOWN + dims as others stack above ───
+  const y0Raw = useTransform(scrollYProgress, (p) => {
+    if (p <= 0.33) return lerp(0,   -14, easeInOut(p / 0.33));
+    if (p <= 0.66) return lerp(-14, -28, easeInOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(-28, -42, easeInOut((p - 0.66) / 0.33));
+    return -42;
   });
+  const y0 = useSpring(y0Raw, SPRING);
 
   const scale0 = useTransform(scrollYProgress, (p) => {
-    if (p <= 0.33) return lerp(1, 0.95, ease(p / 0.33));
-    if (p <= 0.66) return lerp(0.95, 0.90, ease((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(0.90, 0.85, ease((p - 0.66) / 0.33));
-    return 0.85;
+    if (p <= 0.33) return lerp(1,    0.96, easeInOut(p / 0.33));
+    if (p <= 0.66) return lerp(0.96, 0.92, easeInOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(0.92, 0.88, easeInOut((p - 0.66) / 0.33));
+    return 0.88;
   });
 
   const dim0 = useTransform(scrollYProgress, (p) => {
-    if (p <= 0.33) return lerp(0, 0.40, ease(p / 0.33));
-    if (p <= 0.66) return lerp(0.40, 0.65, ease((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(0.65, 0.80, ease((p - 0.66) / 0.33));
-    return 0.80;
+    if (p <= 0.33) return lerp(0,    0.38, easeInOut(p / 0.33));
+    if (p <= 0.66) return lerp(0.38, 0.62, easeInOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(0.62, 0.75, easeInOut((p - 0.66) / 0.33));
+    return 0.75;
   });
 
-  // Card 1: glides smoothly up from below the viewport during 0.00 -> 0.33, then steps down as 2 & 3 arrive
-  const y1 = useTransform(scrollYProgress, (p) => {
-    if (p <= 0.33) return lerp(offscreenDistance, 16, ease(p / 0.33));
-    if (p <= 0.66) return lerp(16, 0, ease((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(0, -16, ease((p - 0.66) / 0.33));
-    return -16;
+  // ─── Card 1: rises from below during 0–0.33, then settles ───
+  const y1Raw = useTransform(scrollYProgress, (p) => {
+    if (p <= 0.33) return lerp(offscreenDistance, 14, easeOut(p / 0.33));
+    if (p <= 0.66) return lerp(14,  0,  easeInOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(0,  -14, easeInOut((p - 0.66) / 0.33));
+    return -14;
   });
+  const y1 = useSpring(y1Raw, SPRING);
 
   const scale1 = useTransform(scrollYProgress, (p) => {
     if (p <= 0.33) return 1;
-    if (p <= 0.66) return lerp(1, 0.95, ease((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(0.95, 0.90, ease((p - 0.66) / 0.33));
-    return 0.90;
+    if (p <= 0.66) return lerp(1,    0.96, easeInOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(0.96, 0.92, easeInOut((p - 0.66) / 0.33));
+    return 0.92;
   });
 
   const dim1 = useTransform(scrollYProgress, (p) => {
     if (p <= 0.33) return 0;
-    if (p <= 0.66) return lerp(0, 0.40, ease((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(0.40, 0.65, ease((p - 0.66) / 0.33));
-    return 0.65;
+    if (p <= 0.66) return lerp(0,    0.38, easeInOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(0.38, 0.62, easeInOut((p - 0.66) / 0.33));
+    return 0.62;
   });
 
-  // Card 2: glides smoothly up from below the viewport during 0.33 -> 0.66, then steps down as 3 arrives
-  const y2 = useTransform(scrollYProgress, (p) => {
+  // ─── Card 2: rises from below during 0.33–0.66, then settles ───
+  const y2Raw = useTransform(scrollYProgress, (p) => {
     if (p <= 0.33) return offscreenDistance;
-    if (p <= 0.66) return lerp(offscreenDistance, 32, ease((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(32, 16, ease((p - 0.66) / 0.33));
-    return 16;
+    if (p <= 0.66) return lerp(offscreenDistance, 28, easeOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(28, 14, easeInOut((p - 0.66) / 0.33));
+    return 14;
   });
+  const y2 = useSpring(y2Raw, SPRING);
 
   const scale2 = useTransform(scrollYProgress, (p) => {
     if (p <= 0.66) return 1;
-    if (p <= 0.99) return lerp(1, 0.95, ease((p - 0.66) / 0.33));
-    return 0.95;
+    if (p <= 0.99) return lerp(1, 0.96, easeInOut((p - 0.66) / 0.33));
+    return 0.96;
   });
 
   const dim2 = useTransform(scrollYProgress, (p) => {
     if (p <= 0.66) return 0;
-    if (p <= 0.99) return lerp(0, 0.40, ease((p - 0.66) / 0.33));
-    return 0.40;
+    if (p <= 0.99) return lerp(0, 0.38, easeInOut((p - 0.66) / 0.33));
+    return 0.38;
   });
 
-  // Card 3: glides smoothly up from below the viewport during 0.66 -> 0.99, docks at 48px
-  const y3 = useTransform(scrollYProgress, (p) => {
+  // ─── Card 3: rises from below during 0.66–0.99, docks at top ───
+  const y3Raw = useTransform(scrollYProgress, (p) => {
     if (p <= 0.66) return offscreenDistance;
-    if (p <= 0.99) return lerp(offscreenDistance, 48, ease((p - 0.66) / 0.33));
-    return 48;
+    if (p <= 0.99) return lerp(offscreenDistance, 42, easeOut((p - 0.66) / 0.33));
+    return 42;
   });
+  const y3 = useSpring(y3Raw, SPRING);
 
   const cardTransforms = [
     { scale: scale0, y: y0, dim: dim0, zIndex: 10 },
     { scale: scale1, y: y1, dim: dim1, zIndex: 20 },
     { scale: scale2, y: y2, dim: dim2, zIndex: 30 },
-    { scale: 1, y: y3, dim: 0, zIndex: 40 },
+    { scale: 1,      y: y3, dim: 0,    zIndex: 40 },
   ];
 
   return (
-    // Tall container providing scroll travel distance while the viewport stage is pinned
     <div ref={containerRef} className="relative w-full" style={{ height: '420vh' }}>
-      {/* Sticky Stage: remains FROZEN / PINNED on screen as cards rise from below and stack */}
+      {/* Sticky stage: pinned on screen, cards fully visible, overflow-visible
+          so incoming cards can rise from below the fold naturally */}
       <div className="sticky top-20 sm:top-24 h-[82vh] sm:h-[86vh] w-full flex items-center justify-center overflow-visible">
         <div className="relative w-full max-w-6xl h-full flex items-center justify-center overflow-visible">
           {projects.map((project, index) => {
@@ -331,8 +348,9 @@ export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => 
                   scale: transform.scale,
                   y: transform.y,
                   zIndex: transform.zIndex,
+                  transform: 'translateZ(0)',
                 }}
-                className="absolute inset-x-0 w-full will-change-transform"
+                className="absolute inset-x-4 sm:inset-x-6 w-auto will-change-transform"
               >
                 <ProjectCardContent
                   project={project}
@@ -348,3 +366,4 @@ export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => 
     </div>
   );
 };
+
