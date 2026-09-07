@@ -71,6 +71,29 @@ export interface ProjectsSectionContent {
   };
 }
 
+export interface OtherProject {
+  id: string;
+  category: string;
+  title: string;
+  tagline: string;
+  description: string;
+  stack: string[];
+  impact: string;
+  image: string;
+  actionText: string;
+  actionUrl: string;
+  actionSecondaryText?: string;
+  actionSecondaryUrl?: string;
+}
+
+export interface OtherProjectsSectionContent {
+  chip: string;
+  headlineFirst: string;
+  headlineSecond: string;
+  subtitle: string;
+  projects: OtherProject[];
+}
+
 export interface PortfolioContent {
   nav: {
     items: NavItem[];
@@ -79,6 +102,7 @@ export interface PortfolioContent {
   hero: HeroContent;
   about: AboutContent;
   featuredProjects: ProjectsSectionContent;
+  otherProjects: OtherProjectsSectionContent;
   footer: {
     rights: string;
     tagline: string;

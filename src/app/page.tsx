@@ -2,6 +2,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
 import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
+import { OtherProjects } from '@/components/sections/OtherProjects';
 import { Footer } from '@/components/layout/Footer';
 
 export default function Home() {
@@ -18,6 +19,9 @@ export default function Home() {
 
       {/* Featured Projects with Stacking Cards */}
       <FeaturedProjects />
+
+      {/* Additional Projects Carousel */}
+      <OtherProjects />
 
       {/* Minimalist Editorial Footer */}
       <Footer />
