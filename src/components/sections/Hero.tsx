@@ -16,7 +16,7 @@ import {
   Brain,
   Search,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const sidebarIconMap: Record<string, React.ReactNode> = {
   code: <Code2 className="w-4 h-4 opacity-80" />,
@@ -42,6 +42,23 @@ export const Hero: React.FC<HeroProps> = ({
   const { t } = useLanguage();
   const { hero } = t;
 
+  // ─── PARALLAX: window scroll (absolute pixels) ────────────────────────────
+  // Animation starts at scrollY 200 (≈ when the card top reaches mid-screen)
+  // and runs over ~500px. Values are 20% less than previous iteration.
+  const { scrollY } = useScroll();
+
+  // Far mountains: 176px travel (220 × 0.8), fade to 8% opacity (not full black)
+  const farY       = useTransform(scrollY, [200, 700], [0, 176]);
+  const farOpacity = useTransform(scrollY, [200, 380, 670], [1, 0.65, 0.08]);
+
+  // Mid mountains: 112px travel (140 × 0.8), fade to 12% opacity
+  const midY       = useTransform(scrollY, [200, 700], [0, 112]);
+  const midOpacity = useTransform(scrollY, [200, 460, 710], [1, 0.72, 0.12]);
+
+  // Card: 72px travel — handled on a dedicated inner div so it doesn't
+  // conflict with the mount-animation y on the outer motion.div
+  const cardY = useTransform(scrollY, [200, 850], [0, 72]);
+
   const renderSocialIcon = (icon: string) => {
     switch (icon) {
       case 'linkedin':
@@ -64,15 +81,19 @@ export const Hero: React.FC<HeroProps> = ({
           'linear-gradient(180deg, #090a0d 0%, #121318 14%, #1f191c 26%, #312320 38%, #382723 48%, #261a18 58%, #140d0e 68%, #08080a 76%, #08080a 100%)',
       }}
     >
-      {/* ========== LANDSCAPE LAYERS ========== */}
+      {/* ═══════════ LANDSCAPE LAYERS ═══════════ */}
 
-      {/* Layer 1: Far mountains */}
-      <div
+      {/* Layer 1 – Far mountains (z-1): sink fastest + fade */}
+      <motion.div
         className="absolute left-0 right-0 w-full pointer-events-none z-[1]"
         style={{
           bottom: '310px',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 44%, transparent 58%)',
-          maskImage: 'linear-gradient(to bottom, black 0%, black 44%, transparent 58%)',
+          y: farY,
+          opacity: farOpacity,
+          WebkitMaskImage:
+            'linear-gradient(to bottom, black 0%, black 44%, transparent 58%)',
+          maskImage:
+            'linear-gradient(to bottom, black 0%, black 44%, transparent 58%)',
         }}
       >
         <Image
@@ -83,15 +104,19 @@ export const Hero: React.FC<HeroProps> = ({
           className="w-full h-auto object-cover object-bottom opacity-90"
           priority
         />
-      </div>
+      </motion.div>
 
-      {/* Layer 2: Mid mountains */}
-      <div
+      {/* Layer 2 – Mid mountains (z-2): sink medium + fade */}
+      <motion.div
         className="absolute left-0 right-0 w-full pointer-events-none z-[2]"
         style={{
           bottom: '250px',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 58%, transparent 72%)',
-          maskImage: 'linear-gradient(to bottom, black 0%, black 58%, transparent 72%)',
+          y: midY,
+          opacity: midOpacity,
+          WebkitMaskImage:
+            'linear-gradient(to bottom, black 0%, black 58%, transparent 72%)',
+          maskImage:
+            'linear-gradient(to bottom, black 0%, black 58%, transparent 72%)',
         }}
       >
         <Image
@@ -102,9 +127,9 @@ export const Hero: React.FC<HeroProps> = ({
           className="w-full h-auto object-cover object-bottom"
           priority
         />
-      </div>
+      </motion.div>
 
-      {/* Layer 3: Foreground grass/moss with smooth seamless fade to pure black */}
+      {/* Layer 3 – Moss / foreground (z-4): STATIC ground-plane */}
       <div
         className="absolute left-0 right-0 w-full pointer-events-none z-[4]"
         style={{ bottom: '235px' }}
@@ -117,19 +142,35 @@ export const Hero: React.FC<HeroProps> = ({
             height={488}
             className="w-full h-auto object-cover object-bottom"
             style={{
-              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.5) 82%, transparent 100%)',
-              maskImage: 'linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.5) 82%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.5) 82%, transparent 100%)',
+              maskImage:
+                'linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.5) 82%, transparent 100%)',
             }}
             priority
           />
-          {/* Smooth black transition starting in the lower part of the moss and extending down */}
-          <div className="absolute top-[75%] inset-x-0 h-[500px] bg-gradient-to-b from-transparent via-[#08080a] to-[#08080a]" />
+          {/*
+            Smooth gradient fill: starts transparent at 40% of the moss image,
+            reaches solid #08080a at ~35% of its own height (≈55% of moss image),
+            then stays solid black for 2000px — covering the card bleed-through
+            AND the transition zone seamlessly, no hard lines.
+          */}
+          <div
+            className="absolute inset-x-0"
+            style={{
+              top: '40%',
+              height: '2000px',
+              background:
+                'linear-gradient(to bottom, transparent 0%, rgba(8,8,10,0.8) 18%, #08080a 32%, #08080a 100%)',
+            }}
+          />
         </div>
       </div>
 
-      {/* ========== CONTENT ========== */}
+      {/* ═══════════ CONTENT (z-3) ═══════════ */}
       <div className="relative z-[3] flex flex-col items-center w-full max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Badge pill with mountain dusk warm accent (without dot) */}
+
+        {/* Badge pill */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -141,7 +182,7 @@ export const Hero: React.FC<HeroProps> = ({
           </span>
         </motion.div>
 
-        {/* Main headline: Hey, I'm in glowing mountain bronze tone, Juan David Quintero in crisp white */}
+        {/* Main headline */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -168,7 +209,7 @@ export const Hero: React.FC<HeroProps> = ({
           </p>
         </motion.div>
 
-        {/* CTA Button with generous spacing to let the hero breathe */}
+        {/* CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -189,124 +230,128 @@ export const Hero: React.FC<HeroProps> = ({
           </a>
         </motion.div>
 
-        {/* ========== FORA-STYLE APP CARD ========== */}
+        {/* ═══════════ FORA-STYLE APP CARD ═══════════
+            Two nested motion.divs to avoid y-value conflict:
+            • Outer: opacity + y slide-in on mount (animate)
+            • Inner: scroll-driven y only (style MotionValue, no opacity)
+              → z-index (from parent z-[3]) is unaffected; moss (z-4) clips correctly
+        */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
           className="w-full max-w-[940px] mx-auto"
         >
-          <div
-            className="rounded-t-[28px] overflow-hidden border border-white/[0.12] backdrop-blur-[24px] shadow-[0_25px_80px_-15px_rgba(0,0,0,0.9)]"
-            style={{
-              backgroundColor: 'rgba(24, 24, 28, 0.94)',
-            }}
-          >
-            <div className="flex flex-col sm:flex-row min-h-[500px] sm:min-h-[580px] md:min-h-[620px]">
-              {/* Left sidebar */}
-              <div
-                className={`flex-shrink-0 p-5 sm:p-7 flex flex-col justify-start border-b sm:border-b-0 sm:border-r border-white/[0.08] bg-[#121216]/95 ${
-                  photoOrientation === 'vertical'
-                    ? 'sm:w-[340px] md:w-[380px]'
-                    : 'sm:w-[240px] md:w-[260px]'
-                }`}
-              >
-                {/* Sidebar header: JDQP on the left, Search on the right */}
-                <div className="flex items-center justify-between pb-5 mb-5 border-b border-white/[0.07]">
-                  <span className="text-sm font-semibold tracking-tight text-white/90">
-                    JDQP
-                  </span>
-                  <Search className="w-4 h-4 text-white/40 hover:text-white/80 transition-colors cursor-pointer" />
-                </div>
+          {/* Scroll-parallax wrapper — y only, no opacity */}
+          <motion.div style={{ y: cardY }}>
+            <div
+              className="rounded-t-[28px] overflow-hidden border border-white/[0.12] backdrop-blur-[24px] shadow-[0_25px_80px_-15px_rgba(0,0,0,0.9)]"
+              style={{ backgroundColor: 'rgba(24, 24, 28, 0.94)' }}
+            >
+              <div className="flex flex-col sm:flex-row min-h-[500px] sm:min-h-[580px] md:min-h-[620px]">
 
-                {/* Sidebar items */}
-                <div className="flex flex-col gap-1">
-                  {hero.sidebarItems.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3.5 px-3 py-2 rounded-xl text-white/80 text-[13px] hover:bg-white/[0.06] hover:text-white transition-all cursor-default group"
-                    >
-                      <span className="text-white/60 group-hover:text-white transition-colors shrink-0">
-                        {sidebarIconMap[item.icon] || (
-                          <Code2 className="w-4 h-4" />
-                        )}
-                      </span>
-                      <span className="font-normal tracking-tight truncate">
-                        {item.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right: Profile photo area (4:5 native aspect ratio) */}
-              <div className="flex-1 relative bg-zinc-950 overflow-hidden min-h-[420px] sm:min-h-[580px]">
-                {/* Full 4:5 photo */}
-                <Image
-                  src="/image_Juan_Hero.jpeg"
-                  alt={hero.profileAlt}
-                  fill
-                  className="object-cover object-center"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 560px"
-                />
-
-                {/* Subtle top & bottom vignettes for contrast and integration */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/40 z-[1] pointer-events-none" />
-
-                {/* Top Floating Glass Bar with Profile & Actions */}
-                <div className="absolute top-4 left-4 right-4 z-[2] p-3 sm:p-3.5 rounded-2xl bg-black/55 backdrop-blur-xl border border-white/15 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  {/* Avatar & Name */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white text-zinc-950 font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
-                      JQ
-                    </div>
-                    <div>
-                      <p className="text-white text-xs sm:text-sm font-semibold leading-tight drop-shadow">
-                        {hero.profileCardName}
-                      </p>
-                      <p className="text-zinc-300 text-[11px] leading-tight drop-shadow">
-                        {hero.profileCardRole}
-                      </p>
-                    </div>
+                {/* Left sidebar */}
+                <div
+                  className={`flex-shrink-0 p-5 sm:p-7 flex flex-col justify-start border-b sm:border-b-0 sm:border-r border-white/[0.08] bg-[#121216]/95 ${
+                    photoOrientation === 'vertical'
+                      ? 'sm:w-[340px] md:w-[380px]'
+                      : 'sm:w-[240px] md:w-[260px]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between pb-5 mb-5 border-b border-white/[0.07]">
+                    <span className="text-sm font-semibold tracking-tight text-white/90">
+                      JDQP
+                    </span>
+                    <Search className="w-4 h-4 text-white/40 hover:text-white/80 transition-colors cursor-pointer" />
                   </div>
 
-                  {/* Action buttons: Download CV & Socials */}
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      href={hero.secondaryCta.url}
-                      target="_blank"
-                      icon={<FileText className="w-3.5 h-3.5" />}
-                      className="text-xs px-3.5 py-1.5 shadow-sm bg-[#fcf8f2] text-[#1a1410] hover:bg-white"
-                    >
-                      {hero.secondaryCta.text}
-                    </Button>
-
-                    {hero.socials.map((social) => (
-                      <Button
-                        key={social.name}
-                        variant="icon"
-                        href={social.url}
-                        target="_blank"
-                        aria-label={social.ariaLabel}
-                        className="p-2 bg-white/10 border-white/15 hover:bg-white/20 text-white"
+                  <div className="flex flex-col gap-1">
+                    {hero.sidebarItems.map((item, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3.5 px-3 py-2 rounded-xl text-white/80 text-[13px] hover:bg-white/[0.06] hover:text-white transition-all cursor-default group"
                       >
-                        {renderSocialIcon(social.icon)}
-                      </Button>
+                        <span className="text-white/60 group-hover:text-white transition-colors shrink-0">
+                          {sidebarIconMap[item.icon] || (
+                            <Code2 className="w-4 h-4" />
+                          )}
+                        </span>
+                        <span className="font-normal tracking-tight truncate">
+                          {item.label}
+                        </span>
+                      </div>
                     ))}
+                  </div>
+                </div>
+
+                {/* Right: Profile photo */}
+                <div className="flex-1 relative bg-zinc-950 overflow-hidden min-h-[420px] sm:min-h-[580px]">
+                  <Image
+                    src="/image_Juan_Hero.jpeg"
+                    alt={hero.profileAlt}
+                    fill
+                    className="object-cover object-center"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 560px"
+                  />
+
+                  {/* Vignette */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/40 z-[1] pointer-events-none" />
+
+                  {/* Top Floating Glass Bar */}
+                  <div className="absolute top-4 left-4 right-4 z-[2] p-3 sm:p-3.5 rounded-2xl bg-black/55 backdrop-blur-xl border border-white/15 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-white text-zinc-950 font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
+                        JQ
+                      </div>
+                      <div>
+                        <p className="text-white text-xs sm:text-sm font-semibold leading-tight drop-shadow">
+                          {hero.profileCardName}
+                        </p>
+                        <p className="text-zinc-300 text-[11px] leading-tight drop-shadow">
+                          {hero.profileCardRole}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        href={hero.secondaryCta.url}
+                        target="_blank"
+                        icon={<FileText className="w-3.5 h-3.5" />}
+                        className="text-xs px-3.5 py-1.5 shadow-sm bg-[#fcf8f2] text-[#1a1410] hover:bg-white"
+                      >
+                        {hero.secondaryCta.text}
+                      </Button>
+
+                      {hero.socials.map((social) => (
+                        <Button
+                          key={social.name}
+                          variant="icon"
+                          href={social.url}
+                          target="_blank"
+                          aria-label={social.ariaLabel}
+                          className="p-2 bg-white/10 border-white/15 hover:bg-white/20 text-white"
+                        >
+                          {renderSocialIcon(social.icon)}
+                        </Button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 
-      {/* ========== TRANSITION ZONE (MOSS FADING TO PURE BLACK) ========== */}
-      {/* Spacious calm dark expanse connecting Hero to About Me, with the Fora Intro pill */}
-      <div className="relative z-10 w-full flex flex-col items-center justify-center pt-36 sm:pt-48 md:pt-60 pb-16">
+      {/* ═══════════ TRANSITION ZONE → Intro pill ═══════════
+          z-[5] keeps the pill above the moss (z-4).
+          No background needed — the solid #08080a from the moss overlay fills in.
+      */}
+      <div className="relative z-[5] w-full flex flex-col items-center justify-center pt-36 sm:pt-48 md:pt-60 pb-16">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
