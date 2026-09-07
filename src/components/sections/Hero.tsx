@@ -55,9 +55,9 @@ export const Hero: React.FC<HeroProps> = ({
   const midY       = useTransform(scrollY, [200, 700], [0, 112]);
   const midOpacity = useTransform(scrollY, [200, 460, 710], [1, 0.72, 0.12]);
 
-  // Card: 72px travel — handled on a dedicated inner div so it doesn't
+  // Card: 120px travel — handled on a dedicated inner div so it doesn't
   // conflict with the mount-animation y on the outer motion.div
-  const cardY = useTransform(scrollY, [200, 850], [0, 72]);
+  const cardY = useTransform(scrollY, [200, 850], [0, 120]);
 
   const renderSocialIcon = (icon: string) => {
     switch (icon) {
@@ -150,22 +150,37 @@ export const Hero: React.FC<HeroProps> = ({
             priority
           />
           {/*
-            Smooth gradient fill: starts transparent at 40% of the moss image,
-            reaches solid #08080a at ~35% of its own height (≈55% of moss image),
-            then stays solid black for 2000px — covering the card bleed-through
-            AND the transition zone seamlessly, no hard lines.
+            Gradient fill: starts at 25% of the moss image (earlier than before),
+            reaches solid #08080a at 20% of its own height → covers card bottom quickly.
+            2000px height guarantees coverage past the Intro pill.
           */}
           <div
             className="absolute inset-x-0"
             style={{
-              top: '40%',
+              top: '25%',
               height: '2000px',
               background:
-                'linear-gradient(to bottom, transparent 0%, rgba(8,8,10,0.8) 18%, #08080a 32%, #08080a 100%)',
+                'linear-gradient(to bottom, transparent 0%, rgba(8,8,10,0.9) 12%, #08080a 22%, #08080a 100%)',
             }}
           />
         </div>
       </div>
+
+      {/*
+        Dedicated BLACK FLOOR (z-6) — absolute failsafe.
+        Covers the bottom ~420px of the section with a fast fade-to-black.
+        This sits above the moss (z-4) and ensures the card bottom edge (z-3)
+        is NEVER visible no matter how far cardY pushes it down.
+        The Intro pill lives at z-7, above this floor.
+      */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none z-[6]"
+        style={{
+          height: '420px',
+          background:
+            'linear-gradient(to bottom, transparent 0%, rgba(8,8,10,0.92) 22%, #08080a 38%, #08080a 100%)',
+        }}
+      />
 
       {/* ═══════════ CONTENT (z-3) ═══════════ */}
       <div className="relative z-[3] flex flex-col items-center w-full max-w-6xl mx-auto px-4 sm:px-6">
@@ -348,10 +363,10 @@ export const Hero: React.FC<HeroProps> = ({
       </div>
 
       {/* ═══════════ TRANSITION ZONE → Intro pill ═══════════
-          z-[5] keeps the pill above the moss (z-4).
-          No background needed — the solid #08080a from the moss overlay fills in.
+          z-[7] sits above the black floor (z-6) and the moss (z-4).
+          No background needed — the floor + moss overlay fill in seamlessly.
       */}
-      <div className="relative z-[5] w-full flex flex-col items-center justify-center pt-36 sm:pt-48 md:pt-60 pb-16">
+      <div className="relative z-[7] w-full flex flex-col items-center justify-center pt-36 sm:pt-48 md:pt-60 pb-16">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
