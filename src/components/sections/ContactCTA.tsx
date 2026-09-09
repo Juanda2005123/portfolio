@@ -112,36 +112,39 @@ export const ContactCTA: React.FC = () => {
           >
             {/*
               App window container:
-              • Max-width 1000px
+              • Max-width 1150px (+15% larger canvas)
               • Transparent background in canvas letting the section gradient shine through
-              • Left sidebar matching Hero component (#121216/95)
+              • Left sidebar widened for email display matching Hero component (#121216/95)
               • Top border specular light highlight (brillante en la cresta superior que se atenúa)
               • Tall layout sinking under the dunes
             */}
             <div
-              className="relative w-full max-w-[1000px] rounded-t-[22px] border border-white/[0.10] bg-white/[0.015] backdrop-blur-[2px] overflow-hidden flex flex-col sm:flex-row"
+              className="relative w-full max-w-[1150px] rounded-t-[22px] border border-white/[0.10] bg-white/[0.015] backdrop-blur-[2px] overflow-hidden flex flex-col sm:flex-row"
               style={{
                 minHeight: '700px',
                 boxShadow:
-                  'inset 0 1px 1px 0 rgba(255, 255, 255, 0.35), 0 25px 80px -15px rgba(0,0,0,0.85)',
+                  'inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), 0 25px 80px -15px rgba(0,0,0,0.85)',
               }}
             >
-              {/* ── Top Border Specular Light Reflection ── */}
+              {/* ── Top Border Specular Light Reflection (50% softer) ── */}
               {/* Crisp top light line */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/85 to-transparent z-20" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent z-20" />
               {/* Soft specular glow centered on top edge */}
-              <div className="pointer-events-none absolute -top-0.5 left-1/2 -translate-x-1/2 w-3/4 h-[2.5px] bg-gradient-to-r from-transparent via-white/70 to-transparent blur-[1px] z-20" />
+              <div className="pointer-events-none absolute -top-0.5 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-white/35 to-transparent blur-[1px] z-20" />
               {/* Ambient specular cone reflection */}
-              <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-12 bg-gradient-to-b from-white/[0.08] to-transparent blur-lg z-10" />
+              <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-8 bg-gradient-to-b from-white/[0.04] to-transparent blur-md z-10" />
 
-              {/* ── Left Sidebar (Color matching Hero: bg-[#121216]/95) ── */}
-              <div className="sm:w-[210px] md:w-[230px] shrink-0 border-b sm:border-b-0 sm:border-r border-white/[0.08] bg-[#121216]/95 flex flex-col">
-                {/* Header identical to Hero: JDQP on the left, Search on the right */}
-                <div className="px-5 py-4 flex items-center justify-between border-b border-white/[0.07]">
-                  <span className="text-sm font-semibold tracking-tight text-white/90">
-                    JDQP
+              {/* ── Left Sidebar (Widened to 260px-280px, bg-[#121216]/95) ── */}
+              <div className="sm:w-[260px] md:w-[280px] shrink-0 border-b sm:border-b-0 sm:border-r border-white/[0.08] bg-[#121216]/95 flex flex-col">
+                {/* Header with email on the left, Search on the right */}
+                <div className="px-5 py-4 flex items-center justify-between gap-2 border-b border-white/[0.07]">
+                  <span
+                    className="text-xs font-semibold tracking-tight text-white/90 truncate"
+                    title="juandavidquintero49@gmail.com"
+                  >
+                    juandavidquintero49@gmail.com
                   </span>
-                  <Search className="w-4 h-4 text-white/40 hover:text-white/80 transition-colors cursor-pointer" />
+                  <Search className="w-4 h-4 text-white/40 hover:text-white/80 transition-colors cursor-pointer shrink-0" />
                 </div>
 
                 {/* Navigation links */}
