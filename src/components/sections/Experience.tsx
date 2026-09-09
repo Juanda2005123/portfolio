@@ -29,8 +29,8 @@ export const Experience: React.FC = () => {
   // Active section tab: 'experience' or 'education'
   const [activeSection, setActiveSection] = useState<'experience' | 'education'>('experience');
 
-  // lockedId stores the row clicked open permanently
-  const [lockedId, setLockedId] = useState<string | null>(workExperience.entries[0]?.id ?? null);
+  // lockedId stores the row clicked open permanently (null by default so nothing is pre-opened)
+  const [lockedId, setLockedId] = useState<string | null>(null);
   // hoveredId stores the row currently under the cursor (desktop only)
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -58,12 +58,7 @@ export const Experience: React.FC = () => {
 
   const handleSectionSwitch = (section: 'experience' | 'education') => {
     setActiveSection(section);
-    // Automatically open the first item of the selected section
-    if (section === 'experience') {
-      setLockedId(workExperience.entries[0]?.id ?? null);
-    } else {
-      setLockedId(education.entry.id);
-    }
+    setLockedId(null);
     setHoveredId(null);
   };
 
