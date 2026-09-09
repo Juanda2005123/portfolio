@@ -140,9 +140,9 @@ export const ContactCTA: React.FC = () => {
                 <div className="px-5 py-4 flex items-center justify-between gap-2 border-b border-white/[0.07]">
                   <span
                     className="text-xs font-semibold tracking-normal text-white/90 truncate pl-1"
-                    title="juandavidquintero49@gmail.com"
+                    title="juandavidquintero0805@gmail.com"
                   >
-                    juandavidquintero49@gmail.com
+                    juandavidquintero0805@gmail.com
                   </span>
                   <Search className="w-4 h-4 text-white/40 hover:text-white/80 transition-colors cursor-pointer shrink-0" />
                 </div>

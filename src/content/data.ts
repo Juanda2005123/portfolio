@@ -37,7 +37,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
         },
         {
           name: 'Email',
-          url: 'mailto:juandavidquintero49@gmail.com',
+          url: 'mailto:juandavidquintero0805@gmail.com',
           icon: 'email',
           ariaLabel: 'Enviar correo a Juan David Quintero',
         },
@@ -402,7 +402,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       subtitle:
         'Disponible para incorporarme a empresas y equipos de ingeniería que construyen productos escalables y valoran el rigor técnico.',
       primaryCtaText: 'Contactar por Correo',
-      primaryCtaEmail: 'juandavidquintero49@gmail.com',
+      primaryCtaEmail: 'juandavidquintero0805@gmail.com',
       githubUrl: 'https://github.com/Juanda2005123',
       linkedinUrl: 'https://www.linkedin.com/in/juan-david-quintero-software-engineer-full-stack-automation-ai/',
       cvUrl: '/HV_JUAN_DAVID_QUINTERO_ES.pdf',
@@ -459,7 +459,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
         },
         {
           name: 'Email',
-          url: 'mailto:juandavidquintero49@gmail.com',
+          url: 'mailto:juandavidquintero0805@gmail.com',
           icon: 'email',
           ariaLabel: 'Send email to Juan David Quintero',
         },
@@ -824,7 +824,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       subtitle:
         'Open to full-time software engineering roles in tech companies building scalable architectures and demanding technical excellence.',
       primaryCtaText: 'Get in touch via Email',
-      primaryCtaEmail: 'juandavidquintero49@gmail.com',
+      primaryCtaEmail: 'juandavidquintero0805@gmail.com',
       githubUrl: 'https://github.com/Juanda2005123',
       linkedinUrl: 'https://www.linkedin.com/in/juan-david-quintero-software-engineer-full-stack-automation-ai/',
       cvUrl: '/HV_JUAN_DAVID_QUINTERO_EN.pdf',
