@@ -112,7 +112,7 @@ export const TechStack: React.FC = () => {
   return (
     <section
       id="skills"
-      className="relative py-24 md:py-32 px-6 sm:px-10 lg:px-12 w-full max-w-5xl mx-auto"
+      className="relative py-24 md:py-32 px-6 sm:px-10 lg:px-12 w-full max-w-5xl mx-auto scroll-mt-20"
     >
       {/* ── Header ── */}
       <div className="mb-10 md:mb-12">

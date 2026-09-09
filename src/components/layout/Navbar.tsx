@@ -23,10 +23,39 @@ export const Navbar: React.FC = () => {
     href: string
   ) => {
     e.preventDefault();
-    const targetId = href.replace('#', '');
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+
+    if (href === '#experience') {
+      window.dispatchEvent(
+        new CustomEvent('switch-experience-tab', { detail: 'experience' })
+      );
+      const element = document.getElementById('experience');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (href === '#education') {
+      window.dispatchEvent(
+        new CustomEvent('switch-experience-tab', { detail: 'education' })
+      );
+      const element = document.getElementById('education') || document.getElementById('experience');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (href === '#contact') {
+      const element = document.getElementById('contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    } else {
+      const targetId = href.replace('#', '');
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     setMobileMenuOpen(false);
   };
@@ -45,7 +74,7 @@ export const Navbar: React.FC = () => {
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, '#hero')}
-          className="flex items-center gap-1 cursor-pointer group select-none"
+          className="flex items-center gap-1 cursor-pointer group select-none shrink-0"
         >
           <span className="text-sm font-semibold tracking-tight text-zinc-200 group-hover:text-white transition-colors">
             Juan David Quintero<span className="text-zinc-500 font-normal">.</span>
@@ -53,7 +82,7 @@ export const Navbar: React.FC = () => {
         </a>
 
         {/* Center: Nav Links (Desktop) */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-7">
           {t.nav.items.map((item) => (
             <a
               key={item.href}

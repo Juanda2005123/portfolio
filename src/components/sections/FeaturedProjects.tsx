@@ -9,7 +9,7 @@ export const FeaturedProjects: React.FC = () => {
   const { featuredProjects } = t;
 
   return (
-    <section id="projects" className="relative py-24 md:py-36 px-4 sm:px-6 max-w-7xl mx-auto">
+    <section id="projects" className="relative py-24 md:py-36 px-4 sm:px-6 max-w-7xl mx-auto scroll-mt-20">
       {/* Section Header: 2-Column Fora Style */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 md:mb-24 items-end">
         {/* Left Column: Chip with dot & 2-tone Headline */}

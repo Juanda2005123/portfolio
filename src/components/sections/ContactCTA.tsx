@@ -61,7 +61,7 @@ export const ContactCTA: React.FC = () => {
   return (
     <section
       id="contact"
-      className="relative pt-24 sm:pt-32 md:pt-36 overflow-hidden"
+      className="relative pt-24 sm:pt-32 md:pt-36 overflow-hidden scroll-mt-20"
       style={{
         background:
           'linear-gradient(180deg, #08080a 0%, #100b0e 20%, #201317 40%, #341f22 62%, #3d2423 78%, #241518 92%, #0e090b 100%)',

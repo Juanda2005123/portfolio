@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { ChevronDown, MapPin, Briefcase, GraduationCap } from 'lucide-react';
@@ -33,6 +33,39 @@ export const Experience: React.FC = () => {
   const [lockedId, setLockedId] = useState<string | null>(null);
   // hoveredId stores the row currently under the cursor (desktop only)
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleSwitch = (e: CustomEvent<'experience' | 'education'>) => {
+      if (e.detail === 'experience' || e.detail === 'education') {
+        setActiveSection(e.detail);
+        setLockedId(null);
+        setHoveredId(null);
+      }
+    };
+
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash === '#education') {
+        setActiveSection('education');
+        setLockedId(null);
+        setHoveredId(null);
+      } else if (hash === '#experience') {
+        setActiveSection('experience');
+        setLockedId(null);
+        setHoveredId(null);
+      }
+    };
+
+    handleHash();
+
+    window.addEventListener('switch-experience-tab' as any, handleSwitch);
+    window.addEventListener('hashchange', handleHash);
+
+    return () => {
+      window.removeEventListener('switch-experience-tab' as any, handleSwitch);
+      window.removeEventListener('hashchange', handleHash);
+    };
+  }, []);
 
   // Hover previews immediately on desktop; falls back to locked item when mouse leaves
   const activeId = hoveredId ?? lockedId;
@@ -90,8 +123,10 @@ export const Experience: React.FC = () => {
   return (
     <section
       id="experience"
-      className="relative py-24 md:py-32 px-6 sm:px-10 lg:px-12 w-full max-w-5xl mx-auto"
+      className="relative py-24 md:py-32 px-6 sm:px-10 lg:px-12 w-full max-w-5xl mx-auto scroll-mt-20"
     >
+      {/* Target anchor for direct education links */}
+      <div id="education" className="absolute top-0 pointer-events-none" />
       {/* ── Section Header (Static Title that does NOT change when toggling) ── */}
       <div className="mb-10 md:mb-14">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-zinc-400 backdrop-blur-sm mb-6">
