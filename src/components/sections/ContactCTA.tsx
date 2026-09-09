@@ -139,7 +139,7 @@ export const ContactCTA: React.FC = () => {
                 {/* Header with email on the left, Search on the right */}
                 <div className="px-5 py-4 flex items-center justify-between gap-2 border-b border-white/[0.07]">
                   <span
-                    className="text-xs font-semibold tracking-tight text-white/90 truncate"
+                    className="text-xs font-semibold tracking-normal text-white/90 truncate pl-1"
                     title="juandavidquintero49@gmail.com"
                   >
                     juandavidquintero49@gmail.com
