@@ -20,29 +20,14 @@ interface BentoCardProps {
 }
 
 const BentoCard: React.FC<BentoCardProps> = ({ card, index, language }) => {
-  const [selectedIdx, setSelectedIdx] = useState<number>(0);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [activeIdx, setActiveIdx] = useState<number>(0);
 
-  const activeIdx = hoveredIdx !== null ? hoveredIdx : selectedIdx;
   const activeSkill: TechSkill = card.skills[activeIdx] || card.skills[0];
 
   const IconComponent = iconMap[card.icon] || Layout;
 
-  const handleMouseEnter = (i: number) => {
-    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      setHoveredIdx(i);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      setHoveredIdx(null);
-    }
-  };
-
-  const handleSkillClick = (i: number) => {
-    setSelectedIdx(i);
-    setHoveredIdx(null);
+  const handleSkillHover = (i: number) => {
+    setActiveIdx(i);
   };
 
   return (
@@ -77,9 +62,8 @@ const BentoCard: React.FC<BentoCardProps> = ({ card, index, language }) => {
               <button
                 key={skill.name}
                 type="button"
-                onClick={() => handleSkillClick(i)}
-                onMouseEnter={() => handleMouseEnter(i)}
-                onMouseLeave={handleMouseLeave}
+                onClick={() => setActiveIdx(i)}
+                onMouseEnter={() => handleSkillHover(i)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer flex items-center gap-1.5 ${
                   isActive
                     ? 'bg-[#dcb991]/10 text-[#dcb991] border border-[#dcb991]/40 font-medium shadow-[0_0_12px_rgba(220,185,145,0.1)]'

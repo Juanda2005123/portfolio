@@ -11,8 +11,6 @@ import {
   Search,
   Code2,
   MessageSquare,
-  LayoutGrid,
-  Users,
 } from 'lucide-react';
 
 export const ContactCTA: React.FC = () => {
@@ -21,7 +19,7 @@ export const ContactCTA: React.FC = () => {
 
   const isEs = language === 'es';
 
-  /* Sidebar nav items – adapting Fora's app-navigation style to portfolio links */
+  /* Clean portfolio navigation items for the app sidebar */
   const sidebarItems = [
     {
       icon: <LinkedInIcon className="w-4 h-4" />,
@@ -35,7 +33,7 @@ export const ContactCTA: React.FC = () => {
       label: 'Email',
       href: `mailto:${contact.primaryCtaEmail}`,
       external: false,
-      active: true,          // highlighted – the "active" channel like Fora's "Chat"
+      active: true, // highlighted active channel
     },
     {
       icon: <FileText className="w-4 h-4" />,
@@ -58,28 +56,20 @@ export const ContactCTA: React.FC = () => {
       external: true,
       active: false,
     },
-    {
-      icon: <Users className="w-4 h-4" />,
-      label: isEs ? 'Contratación' : 'Hiring',
-      href: `mailto:${contact.primaryCtaEmail}`,
-      external: false,
-      active: false,
-    },
   ];
 
   return (
     <section
       id="contact"
-      /* No overflow-hidden: the panel intentionally extends into the dunes */
-      className="relative pt-24 sm:pt-32 md:pt-36"
+      className="relative pt-24 sm:pt-32 md:pt-36 overflow-hidden"
       style={{
         background:
           'linear-gradient(180deg, #08080a 0%, #100b0e 20%, #201317 40%, #341f22 62%, #3d2423 78%, #241518 92%, #0e090b 100%)',
       }}
     >
-      {/* ── Main 2-Column Container ── */}
-      <div className="relative z-[5] w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start w-full">
+      {/* ── Main Container (widened to accommodate 40% larger app window) ── */}
+      <div className="relative z-[5] w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start w-full">
 
           {/* ── Left Column: Headline + CTA ── */}
           <motion.div
@@ -87,10 +77,10 @@ export const ContactCTA: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="lg:col-span-5 flex flex-col items-start py-4 lg:pt-16"
+            className="lg:col-span-4 flex flex-col items-start py-4 lg:pt-16"
           >
             {/* Main Headline */}
-            <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-semibold text-white tracking-tight leading-[1.08] mb-6">
+            <h2 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold text-white tracking-tight leading-[1.08] mb-6">
               {contact.headlineFirst}{' '}
               <span className="font-light text-[#edd3b4]">
                 {contact.headlineSecond}
@@ -112,61 +102,67 @@ export const ContactCTA: React.FC = () => {
             </a>
           </motion.div>
 
-          {/* ── Right Column: App-Window UI (Fora-style) ── */}
+          {/* ── Right Column: App Window (40% wider, transparent background) ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
-            className="lg:col-span-7 flex justify-center lg:justify-end w-full"
+            className="lg:col-span-8 flex justify-center lg:justify-end w-full"
           >
             {/*
-              App window:
-              • Tall (min-h-[720px]) so it bleeds into the dunes
-              • rounded-t-[18px] only – bottom corners are hidden under the dunes
-              • No heavy glassmorphism; clean solid dark background
+              App window container:
+              • Max-width 1000px
+              • Transparent background in canvas letting the section gradient shine through
+              • Left sidebar matching Hero component (#121216/95)
+              • Top border specular light highlight (brillante en la cresta superior que se atenúa)
+              • Tall layout sinking under the dunes
             */}
             <div
-              className="w-full max-w-[680px] rounded-t-[18px] border border-white/[0.08] bg-[#0e0f14] shadow-[0_20px_70px_rgba(0,0,0,0.75)] overflow-hidden flex flex-col sm:flex-row"
-              style={{ minHeight: '720px' }}
+              className="relative w-full max-w-[1000px] rounded-t-[22px] border border-white/[0.10] bg-white/[0.015] backdrop-blur-[2px] overflow-hidden flex flex-col sm:flex-row"
+              style={{
+                minHeight: '700px',
+                boxShadow:
+                  'inset 0 1px 1px 0 rgba(255, 255, 255, 0.35), 0 25px 80px -15px rgba(0,0,0,0.85)',
+              }}
             >
+              {/* ── Top Border Specular Light Reflection ── */}
+              {/* Crisp top light line */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/85 to-transparent z-20" />
+              {/* Soft specular glow centered on top edge */}
+              <div className="pointer-events-none absolute -top-0.5 left-1/2 -translate-x-1/2 w-3/4 h-[2.5px] bg-gradient-to-r from-transparent via-white/70 to-transparent blur-[1px] z-20" />
+              {/* Ambient specular cone reflection */}
+              <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-12 bg-gradient-to-b from-white/[0.08] to-transparent blur-lg z-10" />
 
-              {/* ── Sidebar ── */}
-              <div className="sm:w-[180px] md:w-[196px] shrink-0 border-b sm:border-b-0 sm:border-r border-white/[0.07] bg-[#0a0b0f] flex flex-col">
-
-                {/* Sidebar Header: logo pill + search icon */}
-                <div className="px-4 py-[14px] flex items-center justify-between border-b border-white/[0.06]">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-6 h-6 rounded-full bg-[#dcb991]/[0.15] border border-[#dcb991]/25 flex items-center justify-center shrink-0">
-                      <span className="text-[7px] font-bold text-[#dcb991] leading-none select-none">
-                        JQ
-                      </span>
-                    </div>
-                    {/* decorative placeholder bar */}
-                    <div className="w-14 h-[9px] rounded-full bg-white/[0.07]" />
-                  </div>
-                  <Search className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
+              {/* ── Left Sidebar (Color matching Hero: bg-[#121216]/95) ── */}
+              <div className="sm:w-[210px] md:w-[230px] shrink-0 border-b sm:border-b-0 sm:border-r border-white/[0.08] bg-[#121216]/95 flex flex-col">
+                {/* Header identical to Hero: JDQP on the left, Search on the right */}
+                <div className="px-5 py-4 flex items-center justify-between border-b border-white/[0.07]">
+                  <span className="text-sm font-semibold tracking-tight text-white/90">
+                    JDQP
+                  </span>
+                  <Search className="w-4 h-4 text-white/40 hover:text-white/80 transition-colors cursor-pointer" />
                 </div>
 
-                {/* Nav Items */}
-                <nav className="flex-1 py-2.5 px-2 flex flex-col gap-0.5">
+                {/* Navigation links */}
+                <nav className="flex-1 py-3 px-2.5 flex flex-col gap-1">
                   {sidebarItems.map((item, i) => (
                     <a
                       key={i}
                       href={item.href}
                       target={item.external ? '_blank' : undefined}
                       rel={item.external ? 'noopener noreferrer' : undefined}
-                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-colors group ${
+                      className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[13px] font-medium transition-colors group ${
                         item.active
-                          ? 'text-[#dcb991] bg-[#dcb991]/[0.08]'
-                          : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.04]'
+                          ? 'text-[#dcb991] bg-[#dcb991]/[0.10]'
+                          : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.05]'
                       }`}
                     >
                       <span
                         className={`shrink-0 ${
                           item.active
                             ? 'text-[#dcb991]'
-                            : 'text-zinc-600 group-hover:text-zinc-400 transition-colors'
+                            : 'text-zinc-500 group-hover:text-zinc-300 transition-colors'
                         }`}
                       >
                         {item.icon}
@@ -175,72 +171,36 @@ export const ContactCTA: React.FC = () => {
                     </a>
                   ))}
                 </nav>
-
-                {/* Availability status at sidebar bottom */}
-                <div className="px-4 py-4 border-t border-white/[0.06]">
-                  <div className="flex items-center gap-2 text-[10px] font-mono text-emerald-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                    <span className="truncate">
-                      {isEs ? 'Para Contratación' : 'Available for Hire'}
-                    </span>
-                  </div>
-                </div>
               </div>
 
-              {/* ── Main Content Panel ── */}
-              <div className="flex-1 bg-[#111318] flex flex-col items-center pt-14 pb-10 px-8 text-center">
-
-                {/* Avatar */}
-                <div className="w-[52px] h-[52px] rounded-full bg-white text-zinc-950 font-bold text-base flex items-center justify-center shadow-lg mb-3 border border-white/25 select-none">
+              {/* ── Main Panel (Spacious, clean, Fora chat style) ── */}
+              <div className="flex-1 bg-transparent flex flex-col items-center justify-center pt-20 pb-28 px-8 sm:px-12 text-center">
+                {/* Center Avatar */}
+                <div className="w-16 h-16 rounded-full bg-white text-zinc-950 font-bold text-xl flex items-center justify-center shadow-xl mb-4 border border-white/30 select-none">
                   JQ
                 </div>
 
                 {/* Name */}
-                <h3 className="text-[22px] font-bold text-white tracking-tight mb-1.5">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-1.5">
                   {contact.cardName}
                 </h3>
 
-                {/* Overlapping tech initials + badge text */}
-                <div className="flex items-center justify-center gap-2 mb-8">
-                  <div className="flex -space-x-1.5">
-                    {['TS', 'JV', 'NX'].map((initials) => (
-                      <span
-                        key={initials}
-                        className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.10] text-[8px] font-bold text-zinc-300 border border-[#111318] select-none"
-                      >
-                        {initials}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="text-[12px] text-zinc-400">{contact.cardBadge}</span>
-                </div>
+                {/* Professional Role */}
+                <p className="text-sm text-zinc-400 font-normal mb-8">
+                  {contact.cardRole}
+                </p>
 
-                {/* Primary action – wide pill, Fora "Join now" style */}
-                <div className="w-full max-w-[300px] mb-8">
+                {/* Wide Pill Action Button (Fora "Join now" style) */}
+                <div className="w-full max-w-[320px]">
                   <a
                     href={contact.cvUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2.5 py-3 px-6 rounded-full text-sm font-semibold bg-white/90 text-zinc-950 border border-white/30 hover:bg-white transition-all shadow-[0_4px_20px_rgba(255,255,255,0.08)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    className="w-full inline-flex items-center justify-center gap-2.5 py-3.5 px-6 rounded-full text-sm font-semibold bg-[#fcf8f2] text-[#1a1410] border border-[#dcb991]/40 hover:bg-white transition-all shadow-[0_4px_25px_rgba(220,185,145,0.18)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   >
-                    <FileText className="w-4 h-4 shrink-0" />
+                    <FileText className="w-4 h-4 text-[#1a1410] shrink-0" />
                     <span>{contact.cardCtaText}</span>
                   </a>
-                </div>
-
-                {/* Description with arrow highlights */}
-                <div className="w-full max-w-sm text-[12px] sm:text-[13px] text-zinc-400 leading-relaxed text-left space-y-2 pt-5 border-t border-white/[0.06]">
-                  <p className="font-medium text-zinc-300 mb-2.5">
-                    {isEs
-                      ? 'Ingeniero de Software enfocado en arquitectura de alto rendimiento:'
-                      : 'Software Engineer focused on high-performance architecture:'}
-                  </p>
-                  {contact.cardHighlights.map((highlight, hIdx) => (
-                    <div key={hIdx} className="flex items-start gap-2.5">
-                      <span className="text-[#dcb991] font-mono shrink-0 select-none">→</span>
-                      <span>{highlight}</span>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
@@ -248,11 +208,7 @@ export const ContactCTA: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Sand Dunes ──────────────────────────────────────────────────────────
-          z-[20] > panel z-[5]  → dunes render ON TOP of the panel bottom.
-          Negative margin-top pulls them upward to overlap the panel,
-          creating the "window sinking into the landscape" effect (Fora-style).
-      ──────────────────────────────────────────────────────────────────────── */}
+      {/* ── Sand Dunes (Overlap the app window) ── */}
       <div className="relative z-[20] w-full pointer-events-none select-none -mt-24 sm:-mt-32 md:-mt-40">
         <Image
           src="/dunes-bg.png"
