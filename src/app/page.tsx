@@ -3,11 +3,11 @@ import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
 import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
 import { OtherProjects } from '@/components/sections/OtherProjects';
-import { Footer } from '@/components/layout/Footer';
+import { Experience } from '@/components/sections/Experience';
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col selection:bg-white/20 selection:text-white">
+    <main className="relative flex min-h-screen flex-col selection:bg-white/20 selection:text-white pb-24">
       {/* Floating Glassmorphic Navbar */}
       <Navbar />
 
@@ -23,8 +23,8 @@ export default function Home() {
       {/* Additional Projects Carousel */}
       <OtherProjects />
 
-      {/* Minimalist Editorial Footer */}
-      <Footer />
+      {/* Unified Experience & Education Section with Toggle Switch */}
+      <Experience />
     </main>
   );
 }
