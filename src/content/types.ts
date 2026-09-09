@@ -148,6 +148,44 @@ export interface EducationSectionContent {
   entry: EducationEntry;
 }
 
+export interface TechSkill {
+  name: string;
+  project: string; // concise project / production context
+}
+
+export interface TechCard {
+  id: string;
+  title: string;
+  badge: string;
+  icon: 'layout' | 'server' | 'database' | 'cpu';
+  skills: TechSkill[];
+}
+
+export interface TechStackSectionContent {
+  chip: string;
+  headlineFirst: string;
+  headlineSecond: string;
+  subtitle: string;
+  cards: TechCard[];
+}
+
+export interface ContactSectionContent {
+  headlineFirst: string;
+  headlineSecond: string;
+  subtitle: string;
+  primaryCtaText: string;
+  primaryCtaEmail: string;
+  githubUrl: string;
+  linkedinUrl: string;
+  cvUrl: string;
+  cardName: string;
+  cardRole: string;
+  cardBadge: string;
+  cardCtaText: string;
+  cardHighlights: string[];
+  rights: string;
+}
+
 export interface PortfolioContent {
   nav: {
     items: NavItem[];
@@ -159,9 +197,12 @@ export interface PortfolioContent {
   otherProjects: OtherProjectsSectionContent;
   workExperience: WorkExperienceSectionContent;
   education: EducationSectionContent;
+  techStack: TechStackSectionContent;
+  contact: ContactSectionContent;
   footer: {
     rights: string;
     tagline: string;
     backToTop: string;
   };
 }
+

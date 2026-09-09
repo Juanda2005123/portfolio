@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button } from '@/components/ui/Button';
-import { LinkedInIcon, WhatsAppIcon } from '@/components/ui/Icons';
+import { LinkedInIcon } from '@/components/ui/Icons';
 import {
   Mail,
   FileText,
@@ -65,8 +65,6 @@ export const Hero: React.FC<HeroProps> = ({
         return <LinkedInIcon className="w-4 h-4" />;
       case 'email':
         return <Mail className="w-4 h-4" />;
-      case 'whatsapp':
-        return <WhatsAppIcon className="w-4 h-4" />;
       default:
         return null;
     }

@@ -4,10 +4,12 @@ import { About } from '@/components/sections/About';
 import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
 import { OtherProjects } from '@/components/sections/OtherProjects';
 import { Experience } from '@/components/sections/Experience';
+import { TechStack } from '@/components/sections/TechStack';
+import { ContactCTA } from '@/components/sections/ContactCTA';
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col selection:bg-white/20 selection:text-white pb-24">
+    <main className="relative flex min-h-screen flex-col selection:bg-white/20 selection:text-white">
       {/* Floating Glassmorphic Navbar */}
       <Navbar />
 
@@ -25,6 +27,12 @@ export default function Home() {
 
       {/* Unified Experience & Education Section with Toggle Switch */}
       <Experience />
+
+      {/* Interactive Bento Grid Tech Stack & Skills with Project Bridge */}
+      <TechStack />
+
+      {/* Final Closing Call-to-Action with Fora Sand Dunes & Developer Card */}
+      <ContactCTA />
     </main>
   );
 }
