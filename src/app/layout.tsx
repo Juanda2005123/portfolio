@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
@@ -10,30 +10,52 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Juan David Quintero Peña | Software Engineer & Technical Consultant',
+  title: 'Juan David Quintero | Software Engineer & Builder',
   description:
-    'Construyendo sistemas escalables, arquitecturas multi-tenant y automatización con IA. Portafolio profesional de Juan David Quintero Peña.',
+    'Portafolio de Juan David Quintero Peña. Arquitecturas multi-tenant, sistemas escalables y automatización con IA.',
   keywords: [
     'Software Engineer',
     'Juan David Quintero',
-    'Next.js 15',
-    'PostgreSQL RLS',
-    'Multi-Tenant',
-    'Distributed Systems',
-    'n8n',
-    'Hybrid RAG',
+    'Full Stack Developer',
+    'Next.js',
     'TypeScript',
+    'PostgreSQL',
+    'Multi-Tenant',
+    'AI Automation',
     'Java',
+    'Colombia',
   ],
   authors: [{ name: 'Juan David Quintero Peña' }],
-  openGraph: {
-    title: 'Juan David Quintero Peña | Software Engineer',
-    description:
-      'Construyendo sistemas escalables, arquitecturas multi-tenant y automatización con IA.',
-    type: 'website',
-    locale: 'es_ES',
-    alternateLocale: 'en_US',
+  icons: {
+    icon: '/icon.svg',
   },
+  openGraph: {
+    title: 'Juan David Quintero | Software Engineer & Builder',
+    description:
+      'Portafolio de Juan David Quintero Peña. Arquitecturas multi-tenant, sistemas escalables y automatización con IA.',
+    type: 'website',
+    locale: 'es_CO',
+    alternateLocale: 'en_US',
+    images: [
+      {
+        url: '/opengraph-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Juan David Quintero — Software Engineer & Builder',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Juan David Quintero | Software Engineer & Builder',
+    description:
+      'Arquitecturas multi-tenant, sistemas escalables y automatización con IA.',
+    images: ['/opengraph-image.png'],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#09090b',
 };
 
 export default function RootLayout({
@@ -42,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} dark scroll-smooth`}>
+    <html lang="es" className={`${inter.variable} dark scroll-smooth scroll-pt-24`}>
       <body className="min-h-screen bg-background text-zinc-100 selection:bg-white/20 selection:text-white font-sans relative antialiased">
         <LanguageProvider>
           {/* Subtle neutral ambient lighting on top */}

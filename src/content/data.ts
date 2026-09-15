@@ -482,7 +482,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       manifestoParagraphs: [
         'Today AI generates code in seconds; that is why I see my value not in typing syntax, but in understanding the root problem, analyzing data, and assessing the impact of each decision before building.',
         'I care deeply about both technical architecture and project execution: designing clean relational schemas, applying AI where it truly drives value, and ensuring products behave predictably for end users.',
-        'Working a summer in the United States taught me that technical skill alone is not enough: staying calm under pressure, communicating with absolute clarity in another language, and coordinating with a multidisciplinary team is what truly delivers results.',
+        'Spending a summer working in the United States taught me that technical skills alone aren\'t enough. Staying calm under pressure, communicating clearly in another language, and coordinating across teams are the skills that actually drive results.',
       ],
     },
     featuredProjects: {
