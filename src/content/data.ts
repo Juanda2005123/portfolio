@@ -58,9 +58,9 @@ export const portfolioData: Record<Language, PortfolioContent> = {
     about: {
       title: 'Sobre Mí',
       manifestoParagraphs: [
-        'No concibo el desarrollo de software como una simple transcripción de requerimientos a código.',
-        'Mi enfoque está en entender a fondo el problema de negocio, anticipar los cuellos de botella de escalabilidad y diseñar sistemas que reduzcan la fricción operativa.',
-        'Me especializo en el ecosistema TypeScript (Next.js 15, NestJS), backend en Java y bases de datos relacionales, integrando flujos de inteligencia artificial donde realmente aportan eficiencia tangible.',
+        'Hoy la IA genera código en segundos; por eso veo mi valor no en teclear sintaxis, sino en entender el problema de fondo, analizar los datos y evaluar el impacto de cada decisión antes de construir.',
+        'Me interesa tanto el diseño técnico como la coordinación para hacer realidad un proyecto: estructurar bases de datos limpias, aplicar IA donde realmente aporta valor y asegurar que el producto funcione de forma predecible para el usuario.',
+        'Trabajar por un verano en Estados Unidos me enseñó que la técnica no basta: mantener la calma ante imprevistos, comunicarse con claridad en otro idioma y saber coordinar con un equipo es lo que realmente saca las cosas adelante.',
       ],
     },
     featuredProjects: {
@@ -480,9 +480,9 @@ export const portfolioData: Record<Language, PortfolioContent> = {
     about: {
       title: 'About Me',
       manifestoParagraphs: [
-        'I do not conceive software development as a mere transcription of requirements into code.',
-        'My focus lies in deeply grasping the underlying business challenge, anticipating scalability bottlenecks, and engineering systems that eliminate operational friction.',
-        'I specialize in the TypeScript ecosystem (Next.js 15, NestJS), backend in Java, and relational databases, embedding AI workflows only where they unlock tangible, measurable efficiency.',
+        'Today AI generates code in seconds; that is why I see my value not in typing syntax, but in understanding the root problem, analyzing data, and assessing the impact of each decision before building.',
+        'I care deeply about both technical architecture and project execution: designing clean relational schemas, applying AI where it truly drives value, and ensuring products behave predictably for end users.',
+        'Working a summer in the United States taught me that technical skill alone is not enough: staying calm under pressure, communicating with absolute clarity in another language, and coordinating with a multidisciplinary team is what truly delivers results.',
       ],
     },
     featuredProjects: {
