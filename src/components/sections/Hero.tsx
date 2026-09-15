@@ -39,7 +39,7 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({
   photoOrientation = 'vertical',
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { hero } = t;
 
   // ─── PARALLAX: window scroll (absolute pixels) ────────────────────────────
@@ -373,7 +373,7 @@ export const Hero: React.FC<HeroProps> = ({
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-zinc-400 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991]" />
-          Intro
+          {language === 'es' ? 'Introducción' : 'Intro'}
         </motion.div>
       </div>
     </section>

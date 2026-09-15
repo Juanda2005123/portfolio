@@ -128,9 +128,9 @@ const ProjectCardContent: React.FC<{
                   </div>
                 </div>
 
-                {/* Bottom: Impact Metric & Actions */}
+                {/* Bottom: Impact Metric */}
                 <div>
-                  <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.07] mb-6 flex items-start gap-3">
+                  <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.07] flex items-start gap-3">
                     <div className="p-1.5 rounded-md bg-[#dcb991]/10 text-[#dcb991] mt-0.5 shrink-0">
                       <TrendingUp className="w-4 h-4" />
                     </div>
@@ -142,30 +142,6 @@ const ProjectCardContent: React.FC<{
                         {project.metric}
                       </div>
                     </div>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-3">
-                    {project.demoUrl && (
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        href={project.demoUrl}
-                        icon={<ExternalLink className="w-3.5 h-3.5" />}
-                        className="bg-white/10 hover:bg-white/15 text-white border-white/15"
-                      >
-                        {linksText.liveDemo}
-                      </Button>
-                    )}
-                    {project.githubUrl && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        href={project.githubUrl}
-                        icon={<GitHubIcon className="w-3.5 h-3.5" />}
-                      >
-                        {linksText.viewCode}
-                      </Button>
-                    )}
                   </div>
                 </div>
               </div>

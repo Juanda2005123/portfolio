@@ -18,13 +18,14 @@ import {
 // Custom navigation buttons for the Carousel
 const CustomCarouselNav = () => {
   const { canScrollPrev, canScrollNext, scrollPrev, scrollNext } = useCarousel();
+  const { language } = useLanguage();
   
   return (
     <div className="flex gap-3">
       <button
         onClick={scrollPrev}
         disabled={!canScrollPrev}
-        aria-label="Anterior proyecto"
+        aria-label={language === 'es' ? 'Anterior proyecto' : 'Previous project'}
         className="flex items-center justify-center h-11 w-11 rounded-full border border-white/[0.1] bg-white/[0.02] text-white hover:bg-white/[0.08] hover:border-[#dcb991]/30 transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:bg-white/[0.02] disabled:hover:border-white/[0.1]"
       >
         <ChevronLeft className="h-5 w-5" />
@@ -32,7 +33,7 @@ const CustomCarouselNav = () => {
       <button
         onClick={scrollNext}
         disabled={!canScrollNext}
-        aria-label="Siguiente proyecto"
+        aria-label={language === 'es' ? 'Siguiente proyecto' : 'Next project'}
         className="flex items-center justify-center h-11 w-11 rounded-full border border-white/[0.1] bg-white/[0.02] text-white hover:bg-white/[0.08] hover:border-[#dcb991]/30 transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:bg-white/[0.02] disabled:hover:border-white/[0.1]"
       >
         <ChevronRight className="h-5 w-5" />
@@ -85,16 +86,18 @@ export const OtherProjects: React.FC = () => {
                   <Card className="overflow-hidden h-full w-full rounded-2xl sm:rounded-3xl border border-white/[0.05] bg-[#0c0c0e] relative shadow-xl transition-all duration-500 group-hover:border-white/[0.1]">
                     
                     {/* Top Image Area */}
-                    <div className="relative h-[45%] w-full overflow-hidden select-none">
+                    <div className="relative h-[45%] w-full overflow-hidden select-none bg-[#09090d]">
                       <Image
-                        width={600}
-                        height={400}
+                        width={800}
+                        height={500}
+                        quality={90}
                         src={project.image}
                         alt={project.title}
                         draggable={false}
+                        sizes="(max-width: 640px) 85vw, (max-width: 1024px) 380px, 410px"
                         className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105 pointer-events-none select-none"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-transparent opacity-90" />
                       
                       {/* Category Badge */}
                       <div className="absolute top-4 left-4">

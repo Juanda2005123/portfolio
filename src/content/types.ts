@@ -56,6 +56,7 @@ export interface Project {
   githubUrl?: string;
   caseStudyUrl?: string;
   accentColor?: string;
+  image?: string;
 }
 
 export interface ProjectsSectionContent {
