@@ -41,6 +41,16 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const { t, language } = useLanguage();
   const { hero } = t;
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // ─── PARALLAX: window scroll (absolute pixels) ────────────────────────────
   // Animation starts at scrollY 200 (≈ when the card top reaches mid-screen)
@@ -58,6 +68,9 @@ export const Hero: React.FC<HeroProps> = ({
   // Card: 120px travel — handled on a dedicated inner div so it doesn't
   // conflict with the mount-animation y on the outer motion.div
   const cardY = useTransform(scrollY, [200, 850], [0, 120]);
+
+  // Mobile glass bar: smoothly floats up as user scrolls so it never gets covered by the rising moss
+  const mobileBarY = useTransform(scrollY, [200, 850], [0, -90]);
 
   const renderSocialIcon = (icon: string) => {
     switch (icon) {
@@ -83,7 +96,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       {/* Layer 1 – Far mountains (z-1): sink fastest + fade */}
       <motion.div
-        className="absolute left-0 right-0 w-full pointer-events-none z-[1] bottom-[260px] sm:bottom-[310px]"
+        className="absolute left-0 right-0 w-full pointer-events-none z-[1] bottom-[300px] sm:bottom-[310px]"
         style={{
           y: farY,
           opacity: farOpacity,
@@ -105,7 +118,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       {/* Layer 2 – Mid mountains (z-2): sink medium + fade */}
       <motion.div
-        className="absolute left-0 right-0 w-full pointer-events-none z-[2] bottom-[210px] sm:bottom-[250px]"
+        className="absolute left-0 right-0 w-full pointer-events-none z-[2] bottom-[250px] sm:bottom-[250px]"
         style={{
           y: midY,
           opacity: midOpacity,
@@ -125,9 +138,9 @@ export const Hero: React.FC<HeroProps> = ({
         />
       </motion.div>
 
-      {/* Layer 3 – Moss / foreground (z-4): STATIC ground-plane */}
+      {/* Layer 3 – Moss / foreground (z-4): STATIC ground-plane — raised on mobile to seamlessly overlay photo bottom */}
       <div
-        className="absolute left-0 right-0 w-full pointer-events-none z-[4] bottom-[190px] sm:bottom-[235px]"
+        className="absolute left-0 right-0 w-full pointer-events-none z-[4] bottom-[230px] sm:bottom-[235px]"
       >
         <div className="relative w-full">
           <Image
@@ -169,7 +182,7 @@ export const Hero: React.FC<HeroProps> = ({
         The Intro pill lives at z-7, above this floor.
       */}
       <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none z-[6] h-[340px] sm:h-[420px]"
+        className="absolute inset-x-0 bottom-0 pointer-events-none z-[6] h-[380px] sm:h-[420px]"
         style={{
           background:
             'linear-gradient(to bottom, transparent 0%, rgba(8,8,10,0.92) 22%, #08080a 38%, #08080a 100%)',
@@ -307,8 +320,12 @@ export const Hero: React.FC<HeroProps> = ({
                   {/* Vignette — stronger bottom gradient on mobile for glass bar readability */}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent via-60% to-black/85 sm:to-black/40 z-[1] pointer-events-none" />
 
-                  {/* Floating Glass Bar — positioned around belt/trouser level on mobile (bottom-8), top on sm+ */}
-                  <div className="absolute bottom-8 sm:bottom-auto sm:top-4 left-3 right-3 sm:left-4 sm:right-4 z-[2] p-3 sm:p-3.5 rounded-2xl bg-black/65 backdrop-blur-xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  {/* Floating Glass Bar — positioned around belt/trouser level on mobile (bottom-8), top on sm+
+                      On mobile, it moves up smoothly with mobileBarY so as moss rises, the bar rises with it and stays permanently visible! */}
+                  <motion.div
+                    style={{ y: isMobile ? mobileBarY : 0 }}
+                    className="absolute bottom-6 sm:bottom-auto sm:top-4 left-3 right-3 sm:left-4 sm:right-4 z-[20] pointer-events-auto p-3 sm:p-3.5 rounded-2xl bg-black/75 sm:bg-black/65 backdrop-blur-xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-white text-zinc-950 font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
                         JQ
@@ -329,8 +346,9 @@ export const Hero: React.FC<HeroProps> = ({
                         size="sm"
                         href={hero.secondaryCta.url}
                         target="_blank"
+                        rel="noopener noreferrer"
                         icon={<FileText className="w-3.5 h-3.5" />}
-                        className="text-xs px-3.5 py-1.5 shadow-sm bg-[#fcf8f2] text-[#1a1410] hover:bg-white"
+                        className="text-xs px-3.5 py-1.5 shadow-sm bg-[#fcf8f2] text-[#1a1410] hover:bg-white cursor-pointer relative z-10"
                       >
                         {hero.secondaryCta.text}
                       </Button>
@@ -341,14 +359,15 @@ export const Hero: React.FC<HeroProps> = ({
                           variant="icon"
                           href={social.url}
                           target="_blank"
+                          rel="noopener noreferrer"
                           aria-label={social.ariaLabel}
-                          className="p-2 bg-white/10 border-white/15 hover:bg-white/20 text-white"
+                          className="p-2 bg-white/10 border-white/15 hover:bg-white/20 text-white cursor-pointer relative z-10"
                         >
                           {renderSocialIcon(social.icon)}
                         </Button>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
