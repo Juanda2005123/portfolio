@@ -46,38 +46,35 @@ export const OtherProjects: React.FC = () => {
 
   return (
     <section className="relative py-24 md:py-32 px-4 sm:px-6 w-full max-w-[1400px] mx-auto overflow-hidden">
-      {/* Section Header */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 md:mb-20 items-end">
-        {/* Left Column */}
-        <div className="lg:col-span-8">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-zinc-400 backdrop-blur-sm shadow-sm mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991]" />
-            {otherProjects.chip}
+      <Carousel className="w-full relative">
+        {/* Section Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 md:mb-20 items-end">
+          {/* Left Column */}
+          <div className="lg:col-span-8">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-zinc-400 backdrop-blur-sm shadow-sm mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991]" />
+              {otherProjects.chip}
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.15]">
+              <span className="text-white block">{otherProjects.headlineFirst}</span>
+              <span className="text-[#c8a882] block">{otherProjects.headlineSecond}</span>
+            </h2>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.15]">
-            <span className="text-white block">{otherProjects.headlineFirst}</span>
-            <span className="text-[#c8a882] block">{otherProjects.headlineSecond}</span>
-          </h2>
-        </div>
-
-        {/* Right Column */}
-        <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-end">
-          <p className="text-zinc-400 text-sm sm:text-base leading-relaxed text-left lg:text-right max-w-sm mb-6 lg:mb-8">
-            {otherProjects.subtitle}
-          </p>
-        </div>
-      </div>
-
-      {/* Carousel */}
-      <div className="w-full">
-        <Carousel className="w-full relative">
-          {/* Header Navigation for Carousel */}
-          <div className="absolute -top-16 lg:-top-28 right-0 lg:right-4 z-10 hidden sm:block">
-             <CustomCarouselNav />
+          {/* Right Column — subtitle and navigation buttons beneath it */}
+          <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-end gap-5">
+            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed text-left lg:text-right max-w-sm">
+              {otherProjects.subtitle}
+            </p>
+            <div className="flex w-full justify-start lg:justify-end items-center pt-1">
+              <CustomCarouselNav />
+            </div>
           </div>
-          
-          <CarouselContent className="gap-6 px-1 pb-12 pt-2">
+        </div>
+
+        {/* Carousel Content */}
+        <CarouselContent className="gap-6 px-1 pb-12 pt-2">
             {otherProjects.projects.map((project) => (
               <CarouselItem key={project.id} className="w-[85vw] sm:w-[340px] md:w-[380px] lg:w-[410px]">
                 <div className="group block relative w-full h-[480px] sm:h-[520px]">
@@ -140,13 +137,7 @@ export const OtherProjects: React.FC = () => {
             ))}
           </CarouselContent>
           
-          {/* Mobile Navigation (shows below carousel) */}
-          <div className="flex justify-center mt-6 sm:hidden">
-            <CustomCarouselNav />
-          </div>
-          
         </Carousel>
-      </div>
     </section>
   );
 };

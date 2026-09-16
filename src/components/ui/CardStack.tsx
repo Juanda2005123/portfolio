@@ -110,10 +110,10 @@ const ProjectCardContent: React.FC<{
             />
 
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[720px] lg:min-h-[750px]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-0 lg:min-h-[750px]">
               {/* Copy Column */}
               <div
-                className={`lg:col-span-6 px-10 py-12 flex flex-col justify-between relative z-10 bg-[#131313] ${
+                className={`lg:col-span-6 px-6 sm:px-10 py-8 sm:py-12 flex flex-col justify-between relative z-10 bg-[#131313] ${
                   isEven ? 'lg:order-1' : 'lg:order-2'
                 }`}
               >
@@ -126,7 +126,7 @@ const ProjectCardContent: React.FC<{
                   </span>
 
                   {/* Title */}
-                  <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-[1.15]">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white leading-[1.15]">
                     {project.title}
                   </h3>
 
@@ -137,7 +137,7 @@ const ProjectCardContent: React.FC<{
                 </div>
 
                 {/* Bottom: Impact Metric — icon bullet centered with text block */}
-                <div className="mt-10 flex items-center gap-4">
+                <div className="mt-8 sm:mt-10 flex items-center gap-4">
                   <div className="shrink-0 text-white flex items-center justify-center">
                     {project.id === 'b2b-saas' && <ShieldCheck className="w-6 h-6" />}
                     {project.id === 'real-estate-crm' && <Clock className="w-6 h-6" />}
@@ -159,7 +159,7 @@ const ProjectCardContent: React.FC<{
                 <div className="w-full h-full rounded-xl overflow-hidden relative">
                   <ProjectMockup
                     projectId={project.id}
-                    className="w-full h-full min-h-[510px] lg:min-h-[630px] rounded-xl overflow-hidden"
+                    className="w-full h-full min-h-[360px] sm:min-h-[480px] lg:min-h-[630px] rounded-xl overflow-hidden"
                   />
                 </div>
               </div>
@@ -200,16 +200,18 @@ const SPRING = { stiffness: 100, damping: 28, mass: 0.6 };
 export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewportH, setViewportH] = useState(1000);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const updateHeight = () => {
+    const updateSize = () => {
       if (typeof window !== 'undefined') {
         setViewportH(window.innerHeight || 1000);
+        setIsMobile(window.innerWidth < 1024);
       }
     };
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -306,6 +308,24 @@ export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => 
     { scale: 1,      y: y3, dim: 0,    zIndex: 40 },
   ];
 
+  // ═══════ MOBILE: simple vertical list, no stacking animation ═══════
+  if (isMobile) {
+    return (
+      <div className="flex flex-col gap-10">
+        {projects.map((project, index) => (
+          <ProjectCardContent
+            key={project.id}
+            project={project}
+            index={index}
+            linksText={linksText}
+            dimValue={0}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // ═══════ DESKTOP: sticky stacking animation ═══════
   return (
     <div ref={containerRef} className="relative w-full" style={{ height: '420vh' }}>
       {/* Sticky stage: pinned on screen, cards fully visible, overflow-visible

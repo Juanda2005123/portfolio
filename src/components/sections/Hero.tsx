@@ -83,9 +83,8 @@ export const Hero: React.FC<HeroProps> = ({
 
       {/* Layer 1 – Far mountains (z-1): sink fastest + fade */}
       <motion.div
-        className="absolute left-0 right-0 w-full pointer-events-none z-[1]"
+        className="absolute left-0 right-0 w-full pointer-events-none z-[1] bottom-[260px] sm:bottom-[310px]"
         style={{
-          bottom: '310px',
           y: farY,
           opacity: farOpacity,
           WebkitMaskImage:
@@ -99,16 +98,15 @@ export const Hero: React.FC<HeroProps> = ({
           alt="Distant mountain landscape"
           width={2464}
           height={909}
-          className="w-full h-auto object-cover object-bottom opacity-90"
+          className="w-full min-h-[300px] sm:min-h-0 h-auto object-cover object-bottom opacity-70 sm:opacity-90"
           priority
         />
       </motion.div>
 
       {/* Layer 2 – Mid mountains (z-2): sink medium + fade */}
       <motion.div
-        className="absolute left-0 right-0 w-full pointer-events-none z-[2]"
+        className="absolute left-0 right-0 w-full pointer-events-none z-[2] bottom-[210px] sm:bottom-[250px]"
         style={{
-          bottom: '250px',
           y: midY,
           opacity: midOpacity,
           WebkitMaskImage:
@@ -122,15 +120,14 @@ export const Hero: React.FC<HeroProps> = ({
           alt="Mountain landscape mid layer"
           width={2464}
           height={848}
-          className="w-full h-auto object-cover object-bottom"
+          className="w-full min-h-[280px] sm:min-h-0 h-auto object-cover object-bottom"
           priority
         />
       </motion.div>
 
       {/* Layer 3 – Moss / foreground (z-4): STATIC ground-plane */}
       <div
-        className="absolute left-0 right-0 w-full pointer-events-none z-[4]"
-        style={{ bottom: '235px' }}
+        className="absolute left-0 right-0 w-full pointer-events-none z-[4] bottom-[190px] sm:bottom-[235px]"
       >
         <div className="relative w-full">
           <Image
@@ -138,7 +135,7 @@ export const Hero: React.FC<HeroProps> = ({
             alt="Foreground grass and vegetation"
             width={2464}
             height={488}
-            className="w-full h-auto object-cover object-bottom"
+            className="w-full min-h-[200px] sm:min-h-0 h-auto object-cover object-bottom"
             style={{
               WebkitMaskImage:
                 'linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.5) 82%, transparent 100%)',
@@ -172,9 +169,8 @@ export const Hero: React.FC<HeroProps> = ({
         The Intro pill lives at z-7, above this floor.
       */}
       <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none z-[6]"
+        className="absolute inset-x-0 bottom-0 pointer-events-none z-[6] h-[340px] sm:h-[420px]"
         style={{
-          height: '420px',
           background:
             'linear-gradient(to bottom, transparent 0%, rgba(8,8,10,0.92) 22%, #08080a 38%, #08080a 100%)',
         }}
@@ -298,21 +294,21 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
 
                 {/* Right: Profile photo */}
-                <div className="flex-1 relative bg-zinc-950 overflow-hidden min-h-[420px] sm:min-h-[580px]">
+                <div className="flex-1 relative bg-zinc-950 overflow-hidden min-h-[480px] sm:min-h-[580px]">
                   <Image
                     src="/image_Juan_Hero.jpeg"
                     alt={hero.profileAlt}
                     fill
-                    className="object-cover object-center"
+                    className="object-cover object-top sm:object-center"
                     priority
                     sizes="(max-width: 768px) 100vw, 560px"
                   />
 
-                  {/* Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/40 z-[1] pointer-events-none" />
+                  {/* Vignette — stronger bottom gradient on mobile for glass bar readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent via-60% to-black/85 sm:to-black/40 z-[1] pointer-events-none" />
 
-                  {/* Top Floating Glass Bar */}
-                  <div className="absolute top-4 left-4 right-4 z-[2] p-3 sm:p-3.5 rounded-2xl bg-black/55 backdrop-blur-xl border border-white/15 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  {/* Floating Glass Bar — positioned around belt/trouser level on mobile (bottom-8), top on sm+ */}
+                  <div className="absolute bottom-8 sm:bottom-auto sm:top-4 left-3 right-3 sm:left-4 sm:right-4 z-[2] p-3 sm:p-3.5 rounded-2xl bg-black/65 backdrop-blur-xl border border-white/20 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-white text-zinc-950 font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
                         JQ
@@ -362,9 +358,10 @@ export const Hero: React.FC<HeroProps> = ({
 
       {/* ═══════════ TRANSITION ZONE → Intro pill ═══════════
           z-[7] sits above the black floor (z-6) and the moss (z-4).
-          No background needed — the floor + moss overlay fill in seamlessly.
+          Extended height on mobile allows the moss overlapping the photo and
+          the smooth transition to black to be comfortably experienced before reaching the Intro pill.
       */}
-      <div className="relative z-[7] w-full flex flex-col items-center justify-center pt-36 sm:pt-48 md:pt-60 pb-16">
+      <div className="relative z-[7] w-full flex flex-col items-center justify-center pt-56 sm:pt-48 md:pt-60 pb-24 sm:pb-16">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
