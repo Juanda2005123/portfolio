@@ -77,11 +77,11 @@ export const OtherProjects: React.FC = () => {
         <CarouselContent className="gap-6 px-1 pb-12 pt-2">
             {otherProjects.projects.map((project) => (
               <CarouselItem key={project.id} className="w-[85vw] sm:w-[340px] md:w-[380px] lg:w-[410px]">
-                <div className="group block relative w-full h-[480px] sm:h-[520px]">
+                <div className="group block relative w-full h-[550px] sm:h-[600px]">
                   <Card className="overflow-hidden h-full w-full rounded-2xl sm:rounded-3xl border border-white/[0.05] bg-[#0c0c0e] relative shadow-xl transition-all duration-500 group-hover:border-white/[0.1]">
                     
-                    {/* Top Image Area */}
-                    <div className="relative h-[45%] w-full overflow-hidden select-none bg-[#09090d]">
+                    {/* Top Image Area (+10% taller) */}
+                    <div className="relative h-[43%] w-full overflow-hidden select-none bg-[#09090d]">
                       <Image
                         width={800}
                         height={500}
@@ -102,13 +102,13 @@ export const OtherProjects: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Content Section */}
-                    <div className="relative h-[55%] flex flex-col px-6 sm:px-8 py-5 sm:py-6 justify-between bg-gradient-to-b from-[#0c0c0e] to-transparent">
+                    {/* Content Section (+20% taller, full text without truncation) */}
+                    <div className="relative h-[57%] flex flex-col px-6 sm:px-8 py-5 sm:py-6 justify-between bg-gradient-to-b from-[#0c0c0e] to-transparent">
                       <div>
-                        <h3 className="text-xl font-semibold text-white mb-2 leading-tight group-hover:text-[#c8a882] transition-colors">
+                        <h3 className="text-xl font-semibold text-white mb-2.5 leading-tight group-hover:text-[#c8a882] transition-colors">
                           {project.title}
                         </h3>
-                        <p className="text-zinc-400 text-xs sm:text-sm line-clamp-3 mb-4 leading-relaxed">
+                        <p className="text-zinc-400 text-xs sm:text-sm mb-4 leading-relaxed">
                           {project.description}
                         </p>
                         
@@ -125,7 +125,7 @@ export const OtherProjects: React.FC = () => {
                       {/* Métrica o Valor de Impacto: línea limpia al pie */}
                       <div className="pt-3 border-t border-white/5 flex items-center gap-2.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991] shrink-0" />
-                        <p className="text-xs text-zinc-300 line-clamp-2 leading-snug font-medium">
+                        <p className="text-xs text-zinc-300 leading-snug font-medium">
                           {project.impact}
                         </p>
                       </div>

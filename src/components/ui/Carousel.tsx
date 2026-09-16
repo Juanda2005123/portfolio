@@ -145,6 +145,30 @@ export function CarouselContent({ children, className, ...props }: CarouselConte
   const dragScrollLeft = useRef(0);
   const hasDragged = useRef(false);
 
+  const snapToNearest = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const firstItem = el.firstElementChild as HTMLElement | null;
+    if (!firstItem) return;
+
+    const itemWidth = firstItem.offsetWidth;
+    const gap = 24; // gap-6
+    const step = itemWidth + gap;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+
+    const targetIndex = Math.round(el.scrollLeft / step);
+    let targetScroll = targetIndex * step;
+
+    if (targetScroll >= maxScroll - 20) {
+      targetScroll = maxScroll;
+    } else if (targetScroll <= 20) {
+      targetScroll = 0;
+    }
+
+    el.scrollTo({ left: targetScroll, behavior: 'smooth' });
+  };
+
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = scrollRef.current;
     if (!el) return;
@@ -172,10 +196,16 @@ export function CarouselContent({ children, className, ...props }: CarouselConte
   };
 
   const handleMouseUp = () => {
+    if (isMouseDown && hasDragged.current) {
+      snapToNearest();
+    }
     setIsMouseDown(false);
   };
 
   const handleMouseLeave = () => {
+    if (isMouseDown && hasDragged.current) {
+      snapToNearest();
+    }
     setIsMouseDown(false);
   };
 
@@ -198,11 +228,12 @@ export function CarouselContent({ children, className, ...props }: CarouselConte
       onClickCapture={handleClickCapture}
       className={cn(
         'flex overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain select-none',
-        isMouseDown ? 'cursor-grabbing' : 'cursor-grab',
+        isMouseDown ? 'cursor-grabbing snap-none' : 'cursor-grab snap-x snap-mandatory',
         className
       )}
       style={{
         WebkitOverflowScrolling: 'touch',
+        scrollPaddingLeft: '4px',
       }}
       {...props}
     >
@@ -219,7 +250,7 @@ export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement> 
 export function CarouselItem({ children, className, ...props }: CarouselItemProps) {
   return (
     <div
-      className={cn('min-w-0 shrink-0 select-none', className)}
+      className={cn('min-w-0 shrink-0 select-none snap-start snap-normal', className)}
       {...props}
     >
       {children}

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useMotionValue, MotionValue } from 'framer-motion';
 import { Project } from '@/content/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -28,97 +28,149 @@ const ProjectCardContent: React.FC<{
   };
   dimValue: MotionValue<number> | number;
 }> = ({ project, index, linksText, dimValue }) => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0, active: false });
+  const [cardMousePos, setCardMousePos] = useState({ x: 0, y: 0, active: false });
+  const haloX = useMotionValue(-9999);
+  const haloY = useMotionValue(-9999);
+  const haloLeft = useTransform(haloX, (val) => val - 440);
+  const haloTop = useTransform(haloY, (val) => val - 440);
+  const [isHaloMoving, setIsHaloMoving] = useState(false);
+  const [isHaloActive, setIsHaloActive] = useState(false);
+  const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Alternate layout: Even index -> Copy Left, Visual Right. Odd index -> Visual Left, Copy Right.
   const isEven = index % 2 === 0;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  useEffect(() => {
+    return () => {
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
+    };
+  }, []);
+
+  // Outer border spotlight tracking
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
+    setCardMousePos({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
       active: true,
     });
   };
 
-  const handleMouseLeave = () => {
-    setMousePos((prev) => ({ ...prev, active: false }));
+  const handleCardMouseLeave = () => {
+    setCardMousePos((prev) => ({ ...prev, active: false }));
+  };
+
+  // Copy column cursor spotlight tracking: expands smoothly while moving, shrinks 50% slower when idle
+  const handleCopyMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    haloX.set(x);
+    haloY.set(y);
+
+    setIsHaloActive(true);
+    setIsHaloMoving(true);
+
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+    // If mouse stops moving for 250ms, smoothly shrink and fade out the halo 50% slower
+    idleTimerRef.current = setTimeout(() => {
+      setIsHaloMoving(false);
+    }, 250);
+  };
+
+  const handleCopyMouseLeave = () => {
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+    setIsHaloActive(false);
+    setIsHaloMoving(false);
   };
 
   return (
     <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleCardMouseMove}
+      onMouseLeave={handleCardMouseLeave}
       className="relative w-full rounded-[22px] p-[1px] bg-transparent transition-all duration-200 group overflow-hidden shadow-[0_30px_90px_-20px_rgba(0,0,0,0.95)]"
     >
-      {/* Outer Border Spotlight: 100% more coverage on each side (720px circle), softer and more discreet */}
+      {/* Outer Border Spotlight */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-[22px]"
         style={{
-          opacity: mousePos.active ? 1 : 0,
-          background: mousePos.active
-            ? `radial-gradient(720px circle at ${mousePos.x}px ${mousePos.y}px, rgba(220, 185, 145, 0.45), rgba(255, 255, 255, 0.15) 35%, transparent 70%)`
+          opacity: cardMousePos.active ? 1 : 0,
+          background: cardMousePos.active
+            ? `radial-gradient(720px circle at ${cardMousePos.x}px ${cardMousePos.y}px, rgba(220, 185, 145, 0.45), rgba(255, 255, 255, 0.15) 35%, transparent 70%)`
             : 'transparent',
         }}
       />
 
-      {/* Dark Outer Frame / Channel — reduced gap */}
+      {/* Dark Outer Frame / Channel */}
       <div className="relative z-10 w-full rounded-[21px] p-1.5 bg-[#08080c] overflow-hidden">
         {/* Inner Border Wrapper */}
         <div className="relative w-full rounded-[16px] p-[1px] bg-white/[0.06] overflow-hidden">
-          {/* Inner Border Spotlight: 100% larger (640px circle), discreet lighting */}
+          {/* Inner Border Spotlight */}
           <div
             className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-[16px]"
             style={{
-              opacity: mousePos.active ? 1 : 0,
-              background: mousePos.active
-                ? `radial-gradient(640px circle at ${mousePos.x - 6}px ${mousePos.y - 6}px, rgba(220, 185, 145, 0.4), rgba(255, 255, 255, 0.12) 35%, transparent 70%)`
+              opacity: cardMousePos.active ? 1 : 0,
+              background: cardMousePos.active
+                ? `radial-gradient(640px circle at ${cardMousePos.x - 6}px ${cardMousePos.y - 6}px, rgba(220, 185, 145, 0.4), rgba(255, 255, 255, 0.12) 35%, transparent 70%)`
                 : 'transparent',
             }}
           />
 
           {/* Inner Card Body */}
           <div className="relative z-10 w-full rounded-[15px] bg-[#0e0e14] backdrop-blur-2xl overflow-hidden">
-            {/* Localized surface glow near mouse */}
-            <div
-              className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-0"
-              style={{
-                opacity: mousePos.active ? 1 : 0,
-                background: `radial-gradient(600px circle at ${mousePos.x - 6}px ${mousePos.y - 6}px, rgba(220, 185, 145, 0.04), transparent 60%)`,
-              }}
-            />
-
-            {/* Concentric ring cursor light — 4 discrete rings with hard stops */}
-            <div
-              className="absolute inset-0 pointer-events-none z-[1] transition-opacity duration-300"
-              style={{
-                opacity: mousePos.active ? 1 : 0,
-                background: mousePos.active
-                  ? `radial-gradient(circle at ${mousePos.x - 6}px ${mousePos.y - 6}px,
-                      rgba(220, 185, 145, 0.13) 0px,
-                      rgba(220, 185, 145, 0.13) 28px,
-                      rgba(220, 185, 145, 0.07) 28px,
-                      rgba(220, 185, 145, 0.07) 58px,
-                      rgba(220, 185, 145, 0.04) 58px,
-                      rgba(220, 185, 145, 0.04) 92px,
-                      rgba(220, 185, 145, 0.015) 92px,
-                      rgba(220, 185, 145, 0.015) 135px,
-                      transparent 135px)`
-                  : 'transparent',
-              }}
-            />
-
-
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-0 lg:min-h-[750px]">
-              {/* Copy Column */}
+              {/* Copy Column — Cursor halo renders ONLY here */}
               <div
-                className={`lg:col-span-6 px-6 sm:px-10 py-8 sm:py-12 flex flex-col justify-between relative z-10 bg-[#131313] ${
+                onMouseMove={handleCopyMouseMove}
+                onMouseLeave={handleCopyMouseLeave}
+                className={`lg:col-span-6 px-6 sm:px-10 py-8 sm:py-12 flex flex-col justify-between relative z-10 bg-[#131313] overflow-hidden ${
                   isEven ? 'lg:order-1' : 'lg:order-2'
                 }`}
               >
+                {/* Concentric ring cursor halo: exactly centered on mouse, grows smoothly, shrinks 50% slower */}
+                <motion.div
+                  className="absolute top-0 left-0 pointer-events-none z-0 rounded-full"
+                  style={{
+                    width: 880,
+                    height: 880,
+                    x: haloLeft,
+                    y: haloTop,
+                    background: `radial-gradient(circle at center,
+                      rgba(220, 185, 145, 0.045) 0px,
+                      rgba(220, 185, 145, 0.045) 80px,
+                      rgba(220, 185, 145, 0.030) 80px,
+                      rgba(220, 185, 145, 0.030) 175px,
+                      rgba(220, 185, 145, 0.022) 175px,
+                      rgba(220, 185, 145, 0.022) 295px,
+                      rgba(220, 185, 145, 0.015) 295px,
+                      rgba(220, 185, 145, 0.015) 440px,
+                      transparent 440px)`,
+                  }}
+                  initial={{ scale: 0.04, opacity: 0 }}
+                  animate={{
+                    scale: isHaloActive && isHaloMoving ? 1 : 0.04,
+                    opacity: isHaloActive && isHaloMoving ? 1 : 0,
+                  }}
+                  transition={{
+                    scale: {
+                      duration: isHaloMoving ? 2.0 : 1.3,
+                      ease: isHaloMoving ? [0.16, 1, 0.3, 1] : [0.4, 0, 0.2, 1],
+                    },
+                    opacity: {
+                      duration: isHaloMoving ? 0.45 : 1.15,
+                      ease: 'easeInOut',
+                    },
+                  }}
+                />
+
                 {/* Top block */}
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6 relative z-10">
                   {/* Category — dot + plain mono label */}
                   <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.18em] text-[#dcb991]/70">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991] animate-pulse" />
@@ -137,7 +189,7 @@ const ProjectCardContent: React.FC<{
                 </div>
 
                 {/* Bottom: Impact Metric — icon bullet centered with text block */}
-                <div className="mt-8 sm:mt-10 flex items-center gap-4">
+                <div className="mt-8 sm:mt-10 flex items-center gap-4 relative z-10">
                   <div className="shrink-0 text-white flex items-center justify-center">
                     {project.id === 'b2b-saas' && <ShieldCheck className="w-6 h-6" />}
                     {project.id === 'real-estate-crm' && <Clock className="w-6 h-6" />}
@@ -150,7 +202,7 @@ const ProjectCardContent: React.FC<{
                 </div>
               </div>
 
-              {/* Visual Mockup Column (Alternating) — occupies 98% of the space with a small 6px gap to the border */}
+              {/* Visual Mockup Column (Alternating) */}
               <div
                 className={`lg:col-span-6 p-1.5 bg-[#131313] flex items-stretch justify-center relative overflow-hidden ${
                   isEven ? 'lg:order-2' : 'lg:order-1'
