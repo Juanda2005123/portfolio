@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ProjectMockup } from '@/components/ui/ProjectMockup';
 import { GitHubIcon } from '@/components/ui/Icons';
-import { ExternalLink, TrendingUp } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Clock, FileCheck2, Zap } from 'lucide-react';
 
 interface CardStackProps {
   projects: Project[];
@@ -50,124 +50,128 @@ const ProjectCardContent: React.FC<{
     <div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full rounded-[28px] p-[1px] bg-white/[0.08] transition-all duration-200 group overflow-hidden shadow-[0_30px_90px_-20px_rgba(0,0,0,0.95)]"
+      className="relative w-full rounded-[22px] p-[1px] bg-transparent transition-all duration-200 group overflow-hidden shadow-[0_30px_90px_-20px_rgba(0,0,0,0.95)]"
     >
-      {/* Outer Border Spotlight: ONLY illuminated near the mouse cursor */}
+      {/* Outer Border Spotlight: 100% more coverage on each side (720px circle), softer and more discreet */}
       <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-[28px]"
+        className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-[22px]"
         style={{
           opacity: mousePos.active ? 1 : 0,
           background: mousePos.active
-            ? `radial-gradient(360px circle at ${mousePos.x}px ${mousePos.y}px, rgba(220, 185, 145, 0.85), rgba(255, 255, 255, 0.35) 30%, transparent 70%)`
+            ? `radial-gradient(720px circle at ${mousePos.x}px ${mousePos.y}px, rgba(220, 185, 145, 0.45), rgba(255, 255, 255, 0.15) 35%, transparent 70%)`
             : 'transparent',
         }}
       />
 
-      {/* Dark Outer Frame / Channel (creates outer 1px border and 12px gap) */}
-      <div className="relative z-10 w-full rounded-[27px] p-2.5 sm:p-3 md:p-3.5 bg-[#08080c] overflow-hidden">
+      {/* Dark Outer Frame / Channel — reduced gap */}
+      <div className="relative z-10 w-full rounded-[21px] p-1.5 bg-[#08080c] overflow-hidden">
         {/* Inner Border Wrapper */}
-        <div className="relative w-full rounded-[20px] p-[1px] bg-white/[0.06] overflow-hidden">
-          {/* Inner Border Spotlight: localized to mouse cursor */}
+        <div className="relative w-full rounded-[16px] p-[1px] bg-white/[0.06] overflow-hidden">
+          {/* Inner Border Spotlight: 100% larger (640px circle), discreet lighting */}
           <div
-            className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-[20px]"
+            className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-[16px]"
             style={{
               opacity: mousePos.active ? 1 : 0,
               background: mousePos.active
-                ? `radial-gradient(320px circle at ${mousePos.x - 12}px ${mousePos.y - 12}px, rgba(220, 185, 145, 0.75), rgba(255, 255, 255, 0.3) 30%, transparent 70%)`
+                ? `radial-gradient(640px circle at ${mousePos.x - 6}px ${mousePos.y - 6}px, rgba(220, 185, 145, 0.4), rgba(255, 255, 255, 0.12) 35%, transparent 70%)`
                 : 'transparent',
             }}
           />
 
           {/* Inner Card Body */}
-          <div className="relative z-10 w-full rounded-[19px] bg-[#0e0e14] backdrop-blur-2xl overflow-hidden">
+          <div className="relative z-10 w-full rounded-[15px] bg-[#0e0e14] backdrop-blur-2xl overflow-hidden">
             {/* Localized surface glow near mouse */}
             <div
               className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-0"
               style={{
                 opacity: mousePos.active ? 1 : 0,
-                background: `radial-gradient(420px circle at ${mousePos.x - 12}px ${mousePos.y - 12}px, rgba(220, 185, 145, 0.06), transparent 60%)`,
+                background: `radial-gradient(600px circle at ${mousePos.x - 6}px ${mousePos.y - 6}px, rgba(220, 185, 145, 0.04), transparent 60%)`,
               }}
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px] lg:min-h-[500px]">
+            {/* Concentric ring cursor light — 4 discrete rings with hard stops */}
+            <div
+              className="absolute inset-0 pointer-events-none z-[1] transition-opacity duration-300"
+              style={{
+                opacity: mousePos.active ? 1 : 0,
+                background: mousePos.active
+                  ? `radial-gradient(circle at ${mousePos.x - 6}px ${mousePos.y - 6}px,
+                      rgba(220, 185, 145, 0.13) 0px,
+                      rgba(220, 185, 145, 0.13) 28px,
+                      rgba(220, 185, 145, 0.07) 28px,
+                      rgba(220, 185, 145, 0.07) 58px,
+                      rgba(220, 185, 145, 0.04) 58px,
+                      rgba(220, 185, 145, 0.04) 92px,
+                      rgba(220, 185, 145, 0.015) 92px,
+                      rgba(220, 185, 145, 0.015) 135px,
+                      transparent 135px)`
+                  : 'transparent',
+              }}
+            />
+
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[720px] lg:min-h-[750px]">
               {/* Copy Column */}
               <div
-                className={`lg:col-span-6 p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative z-10 ${
-                  isEven
-                    ? 'lg:order-1 border-b lg:border-b-0 lg:border-r border-white/[0.06]'
-                    : 'lg:order-2 border-b lg:border-b-0 border-white/[0.06]'
+                className={`lg:col-span-6 px-10 py-12 flex flex-col justify-between relative z-10 bg-[#131313] ${
+                  isEven ? 'lg:order-1' : 'lg:order-2'
                 }`}
               >
-                <div>
-                  {/* Category Chip with dot */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-[#edd3b4] mb-5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991]" />
-                    <span>{project.category}</span>
-                  </div>
+                {/* Top block */}
+                <div className="flex flex-col gap-6">
+                  {/* Category — dot + plain mono label */}
+                  <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.18em] text-[#dcb991]/70">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991] animate-pulse" />
+                    {project.category}
+                  </span>
 
-                  {/* Title & Tagline */}
-                  <h3 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2 leading-tight">
+                  {/* Title */}
+                  <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-[1.15]">
                     {project.title}
                   </h3>
-                  <p className="text-sm sm:text-base font-normal text-zinc-400 mb-5 leading-snug">
-                    {project.tagline}
-                  </p>
 
-                  {/* Architecture Description */}
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal mb-6">
+                  {/* Description */}
+                  <p className="text-sm text-zinc-400 leading-relaxed">
                     {project.description}
                   </p>
-
-                  {/* Tech Stack Chips */}
-                  <div className="flex flex-wrap gap-1.5 mb-7">
-                    {project.stack.map((tech) => (
-                      <Badge key={tech} variant="tech">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
                 </div>
 
-                {/* Bottom: Impact Metric */}
-                <div>
-                  <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.07] flex items-start gap-3">
-                    <div className="p-1.5 rounded-md bg-[#dcb991]/10 text-[#dcb991] mt-0.5 shrink-0">
-                      <TrendingUp className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-mono tracking-wider text-zinc-400 font-medium">
-                        {project.metricLabel}
-                      </div>
-                      <div className="text-xs sm:text-sm font-medium text-zinc-200 mt-0.5 leading-snug">
-                        {project.metric}
-                      </div>
-                    </div>
+                {/* Bottom: Impact Metric — icon bullet centered with text block */}
+                <div className="mt-10 flex items-center gap-4">
+                  <div className="shrink-0 text-white flex items-center justify-center">
+                    {project.id === 'b2b-saas' && <ShieldCheck className="w-6 h-6" />}
+                    {project.id === 'real-estate-crm' && <Clock className="w-6 h-6" />}
+                    {project.id === 'consulting-management' && <FileCheck2 className="w-6 h-6" />}
+                    {project.id === 'distributed-voting' && <Zap className="w-6 h-6" />}
                   </div>
+                  <p className="text-sm text-zinc-300 leading-relaxed">
+                    {project.metric}
+                  </p>
                 </div>
               </div>
 
-              {/* Visual Mockup Column (Alternating) */}
+              {/* Visual Mockup Column (Alternating) — occupies 98% of the space with a small 6px gap to the border */}
               <div
-                className={`lg:col-span-6 p-4 sm:p-6 lg:p-7 bg-zinc-950/80 flex items-center justify-center relative overflow-hidden ${
-                  isEven
-                    ? 'lg:order-2'
-                    : 'lg:order-1 border-b lg:border-b-0 lg:border-r border-white/[0.06]'
+                className={`lg:col-span-6 p-1.5 bg-[#131313] flex items-stretch justify-center relative overflow-hidden ${
+                  isEven ? 'lg:order-2' : 'lg:order-1'
                 }`}
               >
-                <ProjectMockup
-                  projectId={project.id}
-                  className="w-full h-full min-h-[340px] lg:min-h-[420px]"
-                />
+                <div className="w-full h-full rounded-xl overflow-hidden relative">
+                  <ProjectMockup
+                    projectId={project.id}
+                    className="w-full h-full min-h-[510px] lg:min-h-[630px] rounded-xl overflow-hidden"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Dim overlay when stacked behind newer cards */}
+      {/* Dim overlay — full black so stacked cards fully disappear */}
       <motion.div
         style={{ opacity: dimValue }}
-        className="absolute inset-0 bg-black/75 rounded-[28px] pointer-events-none z-30 transition-opacity duration-150"
+        className="absolute inset-0 bg-black rounded-[22px] pointer-events-none z-30 transition-opacity duration-150"
       />
     </div>
   );
@@ -238,10 +242,9 @@ export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => 
   });
 
   const dim0 = useTransform(scrollYProgress, (p) => {
-    if (p <= 0.33) return lerp(0,    0.38, easeInOut(p / 0.33));
-    if (p <= 0.66) return lerp(0.38, 0.62, easeInOut((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(0.62, 0.75, easeInOut((p - 0.66) / 0.33));
-    return 0.75;
+    if (p <= 0.33) return lerp(0,    0.6, easeInOut(p / 0.33));
+    if (p <= 0.66) return lerp(0.6,  1.0, easeInOut((p - 0.33) / 0.33));
+    return 1.0;
   });
 
   // ─── Card 1: rises from below during 0–0.33, then settles ───
@@ -262,9 +265,9 @@ export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => 
 
   const dim1 = useTransform(scrollYProgress, (p) => {
     if (p <= 0.33) return 0;
-    if (p <= 0.66) return lerp(0,    0.38, easeInOut((p - 0.33) / 0.33));
-    if (p <= 0.99) return lerp(0.38, 0.62, easeInOut((p - 0.66) / 0.33));
-    return 0.62;
+    if (p <= 0.66) return lerp(0,    0.6, easeInOut((p - 0.33) / 0.33));
+    if (p <= 0.99) return lerp(0.6,  1.0, easeInOut((p - 0.66) / 0.33));
+    return 1.0;
   });
 
   // ─── Card 2: rises from below during 0.33–0.66, then settles ───
@@ -284,8 +287,8 @@ export const CardStack: React.FC<CardStackProps> = ({ projects, linksText }) => 
 
   const dim2 = useTransform(scrollYProgress, (p) => {
     if (p <= 0.66) return 0;
-    if (p <= 0.99) return lerp(0, 0.38, easeInOut((p - 0.66) / 0.33));
-    return 0.38;
+    if (p <= 0.99) return lerp(0, 1.0, easeInOut((p - 0.66) / 0.33));
+    return 1.0;
   });
 
   // ─── Card 3: rises from below during 0.66–0.99, docks at top ───

@@ -4,10 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
-import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
-import { GitHubIcon } from '@/components/ui/Icons';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {
   Carousel,
   CarouselContent,
@@ -113,45 +111,26 @@ export const OtherProjects: React.FC = () => {
                         <h3 className="text-xl font-semibold text-white mb-2 leading-tight group-hover:text-[#c8a882] transition-colors">
                           {project.title}
                         </h3>
-                        <p className="text-zinc-400 text-sm line-clamp-2 mb-4">
-                          {project.tagline}
+                        <p className="text-zinc-400 text-xs sm:text-sm line-clamp-3 mb-4 leading-relaxed">
+                          {project.description}
                         </p>
                         
-                        {/* Stack Tags */}
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {project.stack.slice(0, 3).map((tech) => (
-                            <span key={tech} className="text-xs text-zinc-500 border border-white/5 rounded-md px-2 py-1 bg-white/[0.02]">
+                        {/* Stack Tags: 4 chips completos */}
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {project.stack.map((tech) => (
+                            <span key={tech} className="text-[11px] font-mono text-zinc-400 border border-white/10 rounded-md px-2.5 py-1 bg-white/[0.03]">
                               {tech}
                             </span>
                           ))}
-                          {project.stack.length > 3 && (
-                            <span className="text-xs text-zinc-600 border border-white/5 rounded-md px-2 py-1 bg-white/[0.02]">
-                              +{project.stack.length - 3}
-                            </span>
-                          )}
-                        </div>
-                        
-                        {/* Impact Snippet */}
-                        <div className="text-xs text-zinc-400 line-clamp-2 border-l-2 border-[#dcb991]/30 pl-3 italic opacity-70">
-                          "{project.impact}"
                         </div>
                       </div>
 
-                      {/* Actions */}
-                      <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/5">
-                        <Link href={project.actionUrl} className="flex-1">
-                          <button className="flex items-center justify-center w-full rounded-md text-xs h-9 bg-white/[0.03] border border-white/10 text-white hover:bg-white/[0.08] hover:text-[#c8a882] transition-all group/btn">
-                            {project.actionText}
-                            <ArrowRight className="w-3 h-3 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                          </button>
-                        </Link>
-                        {project.actionSecondaryText && project.actionSecondaryUrl && (
-                          <Link href={project.actionSecondaryUrl}>
-                            <button className="flex items-center justify-center rounded-md h-9 w-9 bg-white/[0.03] border border-white/10 text-zinc-400 hover:text-white hover:bg-white/[0.08] transition-all">
-                              <GitHubIcon />
-                            </button>
-                          </Link>
-                        )}
+                      {/* Métrica o Valor de Impacto: línea limpia al pie */}
+                      <div className="pt-3 border-t border-white/5 flex items-center gap-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991] shrink-0" />
+                        <p className="text-xs text-zinc-300 line-clamp-2 leading-snug font-medium">
+                          {project.impact}
+                        </p>
                       </div>
                     </div>
 

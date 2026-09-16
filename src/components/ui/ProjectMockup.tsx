@@ -36,38 +36,18 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
       return (
         <div
           className={cn(
-            'w-full h-full rounded-2xl bg-[#0d0d12] border border-white/[0.1] flex flex-col shadow-2xl relative overflow-hidden select-none group/mockup',
+            'w-full h-full rounded-xl bg-[#131313] relative overflow-hidden select-none group/mockup',
             className
           )}
         >
-          {/* Ambient glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/[0.08] rounded-full blur-3xl pointer-events-none" />
-
-          {/* Browser / App Header */}
-          <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-2.5 bg-[#121218]/90 backdrop-blur-sm z-10 shrink-0">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70 inline-block" />
-              <span className="ml-2 text-zinc-400 text-[11px] font-mono">
-                multi-tenant.saas.architecture
-              </span>
-            </div>
-            <span className="flex items-center gap-1.5 text-blue-400 text-[10px] bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20 font-mono font-medium">
-              <ShieldCheck className="w-3 h-3 text-blue-400" />
-              PostgreSQL RLS
-            </span>
-          </div>
-
-          {/* Image Container */}
-          <div className="relative flex-1 w-full min-h-[320px] sm:min-h-[360px] lg:min-h-[400px] bg-[#09090d] overflow-hidden flex items-center justify-center p-2">
+          <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
-              src="/project-b2b-saas-v2.jpg"
+              src="/project-b2b-saas-v3.jpg"
               alt="B2B Multi-Tenant SaaS Platform Architecture"
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-contain object-center transition-transform duration-700 group-hover/mockup:scale-[1.02]"
+              className="object-cover object-center rounded-xl transition-transform duration-700 group-hover/mockup:scale-[1.02]"
               priority
             />
           </div>
@@ -78,53 +58,20 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
       return (
         <div
           className={cn(
-            'w-full h-full rounded-2xl bg-[#0d0d12] border border-white/[0.1] flex flex-col shadow-2xl relative overflow-hidden select-none group/mockup',
+            'w-full h-full rounded-xl bg-[#131313] relative overflow-hidden select-none group/mockup',
             className
           )}
         >
-          {/* Ambient glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/[0.07] rounded-full blur-3xl pointer-events-none" />
-
-          {/* Browser / App Header */}
-          <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-2.5 bg-[#121218]/90 backdrop-blur-sm z-10 shrink-0">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70 inline-block" />
-              <a
-                href="https://carolinapenainmobiliaria.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-2 inline-flex items-center gap-1.5 text-zinc-400 hover:text-amber-200 text-[11px] font-mono transition-colors group/link cursor-pointer px-1.5 py-0.5 rounded hover:bg-white/[0.04]"
-                title={language === 'es' ? 'Visitar carolinapenainmobiliaria.com' : 'Visit carolinapenainmobiliaria.com'}
-              >
-                <span>carolinapenainmobiliaria.com</span>
-                <ArrowUpRight className="w-3 h-3 opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-all text-[#dcb991]" />
-              </a>
-            </div>
-            <a
-              href="https://carolinapenainmobiliaria.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 text-[10px] bg-emerald-500/10 hover:bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-500/20 transition-all font-mono font-medium cursor-pointer"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {language === 'es' ? 'En Producción' : 'In Production'}
-            </a>
-          </div>
-
-          {/* Image Container with smooth object-top fit */}
-          <div className="relative flex-1 w-full min-h-[320px] sm:min-h-[360px] lg:min-h-[400px] bg-[#09090d] overflow-hidden">
+          <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
-              src="/project-real-estate-hero.jpg"
+              src="/project-real-estate-v3.png"
               alt="Plataforma Inmobiliaria y CRM Automatizado - Carolina Peña"
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover object-top transition-transform duration-700 group-hover/mockup:scale-[1.03]"
+              className="object-cover object-top rounded-xl transition-transform duration-700 group-hover/mockup:scale-[1.03]"
               priority
             />
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0d0d12] to-transparent opacity-80 pointer-events-none" />
           </div>
         </div>
       );
@@ -133,30 +80,10 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
       return (
         <div
           className={cn(
-            'w-full h-full rounded-2xl bg-[#0d0d12] border border-white/[0.1] p-5 sm:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden select-none',
+            'w-full h-full rounded-xl bg-[#131313] p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden select-none',
             className
           )}
         >
-          {/* Ambient glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/[0.08] rounded-full blur-3xl pointer-events-none" />
-
-          {/* Window header */}
-          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5 mb-4">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70 inline-block" />
-              <span className="ml-2 text-zinc-400 text-[11px] font-mono">
-                consultoria.icesi.edu.co
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-mono font-medium">
-                <ShieldCheck className="w-3 h-3 text-indigo-400" />
-                Azure AD SSO
-              </span>
-            </div>
-          </div>
 
           {/* Workflow stages representation */}
           <div className="space-y-2.5">
@@ -247,77 +174,20 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
       return (
         <div
           className={cn(
-            'w-full h-full rounded-2xl bg-[#0d0d12] border border-white/[0.1] p-5 sm:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden text-xs font-mono select-none',
+            'w-full h-full rounded-xl bg-[#131313] relative overflow-hidden select-none group/mockup',
             className
           )}
         >
-          {/* Ambient glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-600/[0.08] rounded-full blur-3xl pointer-events-none" />
-
-          {/* Top Bar */}
-          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-3">
-            <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-amber-400" />
-              <span className="text-zinc-300 font-sans font-medium text-xs">
-                {language === 'es' ? 'Topología de Clúster ZeroC ICE' : 'ZeroC ICE Cluster Topology'}
-              </span>
-            </div>
-            <span className="text-zinc-400 text-[10px] font-mono">
-              {language === 'es' ? 'Nodos: 3/3 Activos' : 'Nodes: 3/3 Healthy'}
-            </span>
-          </div>
-
-          {/* Cluster node status */}
-          <div className="space-y-2 font-sans">
-            <div className="p-2 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span className="text-zinc-300 text-[11px]">
-                  {language === 'es' ? 'Nodo-01 (Coordinador)' : 'Node-01 (Coordinator)'}
-                </span>
-              </div>
-              <span className="text-zinc-500 text-[10px]">4,120 tx/s</span>
-            </div>
-            <div className="p-2 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span className="text-zinc-300 text-[11px]">
-                  {language === 'es' ? 'Nodo-02 (Persistencia Journal)' : 'Node-02 (Journal Persist)'}
-                </span>
-              </div>
-              <span className="text-zinc-500 text-[10px]">Sync: 0ms lag</span>
-            </div>
-            <div className="p-2 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span className="text-zinc-300 text-[11px]">
-                  {language === 'es' ? 'Nodo-03 (Réplica Consenso)' : 'Node-03 (Consensus Replica)'}
-                </span>
-              </div>
-              <span className="text-emerald-400 text-[10px]">
-                {language === 'es' ? 'Idempotente' : 'Idempotent'}
-              </span>
-            </div>
-          </div>
-
-          {/* Stress Metric summary */}
-          <div className="mt-4 pt-3 border-t border-white/[0.07] grid grid-cols-2 gap-2 text-[11px] font-sans">
-            <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
-              <div className="text-zinc-500 text-[10px]">
-                {language === 'es' ? 'Volumen Prueba de Estrés' : 'Stress Test Volume'}
-              </div>
-              <div className="text-zinc-200 font-medium mt-0.5">
-                {language === 'es' ? '+100.000 Votos' : '+100,000 Votes'}
-              </div>
-            </div>
-            <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
-              <div className="text-zinc-500 text-[10px]">
-                {language === 'es' ? 'Tasa de Pérdida' : 'Loss Rate'}
-              </div>
-              <div className="text-emerald-400 font-medium mt-0.5">
-                {language === 'es' ? '0.00% Tolerancia Cero' : '0.00% Zero Loss'}
-              </div>
-            </div>
+          <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
+            <Image
+              src="/project-distributed-voting.jpg"
+              alt="High-Availability Distributed Voting Infrastructure Architecture"
+              fill
+              quality={90}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-contain object-center rounded-xl transition-transform duration-700 group-hover/mockup:scale-[1.02]"
+              priority
+            />
           </div>
         </div>
       );
@@ -326,44 +196,24 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
       return (
         <div
           className={cn(
-            'w-full h-full rounded-2xl bg-[#0d0d12] border border-white/[0.1] flex flex-col shadow-2xl relative overflow-hidden select-none group/mockup',
+            'w-full h-full rounded-xl bg-[#131313] relative overflow-hidden select-none group/mockup',
             className
           )}
         >
-          {/* Ambient glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-600/[0.08] rounded-full blur-3xl pointer-events-none" />
-
-          {/* Browser / App Header */}
-          <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-2.5 bg-[#121218]/90 backdrop-blur-sm z-10 shrink-0">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70 inline-block" />
-              <span className="ml-2 text-zinc-400 text-[11px] font-mono">
-                {language === 'es' ? 'asistente-electivas.ia' : 'electives-assistant.ai'}
-              </span>
-            </div>
-            <span className="flex items-center gap-1.5 text-cyan-400 text-[10px] bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20 font-mono font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              pgvector RAG
-            </span>
-          </div>
-
-          {/* Image Container with smooth object-top fit */}
-          <div className="relative flex-1 w-full min-h-[320px] sm:min-h-[360px] lg:min-h-[400px] bg-[#09090d] overflow-hidden">
+          <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
               src="/project-electives-bot.png"
               alt="Intelligent Electives Navigation Assistant - Chatbot IA"
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover object-top transition-transform duration-700 group-hover/mockup:scale-[1.03]"
+              className="object-cover object-top rounded-xl transition-transform duration-700 group-hover/mockup:scale-[1.03]"
               priority
             />
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0d0d12] to-transparent opacity-80 pointer-events-none" />
           </div>
         </div>
       );
+
 
     default:
       return null;
