@@ -145,7 +145,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       projects: [
         {
           id: 'cross-platform-mobile',
-          category: 'MOBILE DEVELOPMENT',
+          category: 'DESARROLLO MÓVIL',
           title: 'Aplicación Móvil Reactiva Multiplataforma',
           tagline: '',
           description:
@@ -160,7 +160,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
         },
         {
           id: 'intelligent-electives',
-          category: 'APPLIED AI & HYBRID SEARCH',
+          category: 'IA APLICADA & BÚSQUEDA HÍBRIDA',
           title: 'Asistente Inteligente de Electivas',
           tagline: '',
           description:
@@ -327,7 +327,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
             { name: 'React 19', project: 'Plataforma SaaS · HR Agile Analytics' },
             { name: 'TypeScript', project: 'Tipado estricto en frontend y backend' },
             { name: 'Tailwind CSS', project: 'Sistemas de diseño y componentes modulares' },
-            { name: 'Flutter & Dart', project: 'Cross-Platform Mobile App (iOS / Android)' },
+            { name: 'Flutter & Dart', project: 'App Móvil Multiplataforma (iOS / Android)' },
             { name: 'Framer Motion', project: 'Microinteracciones fluidas y transiciones' },
           ],
         },
@@ -337,11 +337,11 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           badge: 'Server & Logic',
           icon: 'server',
           skills: [
-            { name: 'Java 11 / 17 / 21', project: 'Distributed Voting · Soluciones Algorítmicas' },
-            { name: 'Spring Boot', project: 'Enterprise HR Agile Platform' },
-            { name: 'ZeroC ICE (RPC)', project: 'High-Availability Distributed Voting' },
+            { name: 'Java 11 / 17 / 21', project: 'Votación Distribuida · Soluciones Algorítmicas' },
+            { name: 'Spring Boot', project: 'Plataforma Ágil de RRHH' },
+            { name: 'ZeroC ICE (RPC)', project: 'Votación Distribuida de Alta Disponibilidad' },
             { name: 'Python', project: 'Hybrid RAG & Búsqueda semántica' },
-            { name: 'NestJS', project: 'Corporate Consulting Management' },
+            { name: 'NestJS', project: 'Plataforma de Consultoría B2B' },
             { name: 'JUnit', project: 'Testing unitario y verificación de especificaciones' },
           ],
         },
@@ -354,7 +354,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
             { name: 'PostgreSQL', project: 'B2B SaaS (Row Level Security) · CRM' },
             { name: 'Supabase', project: 'Autenticación, Storage y Postgres administrado' },
             { name: 'Docker', project: 'Contenerización de microservicios' },
-            { name: 'Kubernetes', project: 'Resilient Microservices Pipeline' },
+            { name: 'Kubernetes', project: 'Pipeline de Microservicios Resilientes' },
             { name: 'Jenkins CI/CD', project: 'Automatización de builds y despliegue continuo' },
             { name: 'Redis & Kafka', project: 'Caché distribuido y colas de eventos' },
           ],
@@ -497,7 +497,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           tagline: '',
           description:
             'End-to-end commercial platform centralizing property inventory and lead acquisition. Built the public portal and an n8n conversational agent that pre-qualifies prospects in real-time while automating campaign sync via Meta Graph API.',
-          stack: ['Next.js 15', 'Supabase', 'n8n', 'Meta Graph API', 'Agentes IA'],
+          stack: ['Next.js 15', 'Supabase', 'n8n', 'Meta Graph API', 'AI Agents'],
           metric:
             '~16h/week saved on manual workload with over 140 qualified prospects automatically processed.',
           metricLabel: 'OPERATIONAL EFFICIENCY',
@@ -527,7 +527,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           tagline: '',
           description:
             'Fault-tolerant distributed infrastructure built in Java 11 over ZeroC ICE RPC middleware. Implemented the Reliable Messaging pattern with store-and-forward persistence and idempotent retries to guarantee zero vote loss across network partitions.',
-          stack: ['Java 11', 'ZeroC ICE', 'Reliable Messaging', 'Sistemas Distribuidos', 'JUnit'],
+          stack: ['Java 11', 'ZeroC ICE', 'Reliable Messaging', 'Distributed Systems', 'JUnit'],
           metric:
             'Zero vote loss under stress tests with +100,000 votes and automatic recovery from 30s network outages.',
           metricLabel: 'FAULT TOLERANCE',
@@ -662,7 +662,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           id: 'freelance-backend',
           period: 'Aug 2023 – Feb 2025',
           role: 'Backend Developer & Algorithms (Java)',
-          company: 'Software Developer Freelance',
+          company: 'Independent Software Developer',
           location: 'Cali, Colombia',
           locationKind: 'Remote',
           employmentType: 'Independent Professional',

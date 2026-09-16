@@ -5,9 +5,18 @@ import { useEffect, useState } from "react";
 
 export default function NotFound() {
   const [mounted, setMounted] = useState(false);
+  const [isEn, setIsEn] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    try {
+      const savedLang = localStorage.getItem("portfolio_lang");
+      if (savedLang === "en" || (!savedLang && !navigator.language?.toLowerCase().startsWith("es"))) {
+        setIsEn(true);
+      }
+    } catch {
+      // Ignore
+    }
   }, []);
 
   return (
@@ -33,10 +42,10 @@ export default function NotFound() {
         {/* Message */}
         <div className="flex flex-col gap-2 -mt-4">
           <p className="text-zinc-200 text-lg font-medium">
-            Esta p&aacute;gina no existe.
+            {isEn ? "This page doesn't exist." : "Esta página no existe."}
           </p>
           <p className="text-zinc-500 text-sm">
-            This page doesn&apos;t exist &mdash; or maybe it never did.
+            {isEn ? "It may have been moved or removed." : "Quizás fue movida o nunca existió."}
           </p>
         </div>
 
@@ -58,7 +67,7 @@ export default function NotFound() {
           >
             <path d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
-          Volver al inicio
+          {isEn ? "Back to home" : "Volver al inicio"}
         </Link>
 
         {/* Subtle signature */}

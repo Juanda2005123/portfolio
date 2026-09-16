@@ -43,7 +43,11 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
           <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
               src="/project-b2b-saas-v3.jpg"
-              alt="B2B Multi-Tenant SaaS Platform Architecture"
+              alt={
+                language === 'es'
+                  ? 'Arquitectura de Plataforma SaaS B2B Multi-Tenant'
+                  : 'B2B Multi-Tenant SaaS Platform Architecture'
+              }
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -65,7 +69,11 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
           <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
               src="/project-real-estate-v3.png"
-              alt="Plataforma Inmobiliaria y CRM Automatizado - Carolina Peña"
+              alt={
+                language === 'es'
+                  ? 'Plataforma Inmobiliaria y CRM Automatizado - Carolina Peña'
+                  : 'Real Estate Platform & Automation CRM - Carolina Peña'
+              }
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -87,7 +95,11 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
           <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
               src="/project-consulting-management-v2.png"
-              alt="Plataforma de Consultoría & Analítica B2B - Centro de Consultoría Icesi"
+              alt={
+                language === 'es'
+                  ? 'Plataforma de Consultoría & Analítica B2B - Centro de Consultoría Icesi'
+                  : 'B2B Consulting & Analytics Platform - Icesi Consulting Center'
+              }
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -109,7 +121,11 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
           <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
               src="/project-distributed-voting.jpg"
-              alt="High-Availability Distributed Voting Infrastructure Architecture"
+              alt={
+                language === 'es'
+                  ? 'Arquitectura de Infraestructura de Votación Distribuida de Alta Disponibilidad'
+                  : 'High-Availability Distributed Voting Infrastructure Architecture'
+              }
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -131,7 +147,11 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
           <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
               src="/project-electives-bot.png"
-              alt="Intelligent Electives Navigation Assistant - Chatbot IA"
+              alt={
+                language === 'es'
+                  ? 'Asistente de Navegación de Electivas - Chatbot IA'
+                  : 'Intelligent Electives Navigation Assistant - AI Chatbot'
+              }
               fill
               quality={90}
               sizes="(min-width: 1024px) 50vw, 100vw"
