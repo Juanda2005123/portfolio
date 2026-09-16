@@ -107,15 +107,15 @@ export const portfolioData: Record<Language, PortfolioContent> = {
         },
         {
           id: 'consulting-management',
-          category: 'ARQUITECTURA EMPRESARIAL',
-          title: 'Gestión de Consultorías Corporativas',
+          category: 'GOBERNANZA DE DATOS & B2B',
+          title: 'Plataforma de Consultoría & Analítica B2B',
           tagline: '',
           description:
-            'Plataforma web para digitalizar la gobernanza de consultorías de alto valor en la Universidad Icesi. Integré autenticación corporativa con Azure AD (SSO) y un modelo jerárquico de permisos (RBAC) para coordinar flujos de aprobación de contratos, presupuestos e hitos de entrega.',
-          stack: ['Next.js 15', 'NestJS', 'TypeScript', 'PostgreSQL', 'Azure AD (SSO)'],
+            'Plataforma de modernización comercial para el Centro de Consultoría de la Universidad Icesi. Diseñé una arquitectura modular con NestJS, Next.js y PostgreSQL (Prisma ORM) con Master Data Management (Golden Record) para erradicar la dispersión de datos, integrando modelos de clustering en Python y agentes de recomendación sobre flujos BPMN.',
+          stack: ['NestJS', 'Next.js', 'PostgreSQL (Prisma)', 'Python (scikit-learn)', 'Docker'],
           metric:
-            'Trazabilidad integral en tiempo real de contratos financieros, eliminando la dispersión en hojas de cálculo.',
-          metricLabel: 'GOBERNANZA Y AUDITORÍA',
+            'Trazabilidad integral de una cartera histórica de +$14.915M COP (298 propuestas recuperadas) y consolidación de Golden Record institucional.',
+          metricLabel: 'IMPACTO FINANCIERO & GOBERNANZA',
           demoUrl: '#',
           githubUrl: '#',
         },
@@ -506,15 +506,15 @@ export const portfolioData: Record<Language, PortfolioContent> = {
         },
         {
           id: 'consulting-management',
-          category: 'ENTERPRISE ARCHITECTURE',
-          title: 'Corporate Consulting Governance Platform',
+          category: 'DATA GOVERNANCE & B2B ARCHITECTURE',
+          title: 'B2B Consulting Governance & Analytics Platform',
           tagline: '',
           description:
-            'Enterprise governance platform centralizing high-value university consulting projects. Implemented Azure AD SSO and multi-tier RBAC to orchestrate contract approval workflows, multi-million budgets, and deliverable milestones.',
-          stack: ['Next.js 15', 'NestJS', 'TypeScript', 'PostgreSQL', 'Azure AD (SSO)'],
+            'Enterprise modernization platform for Universidad Icesi\'s Consulting Center. Architected a modular system with NestJS, Next.js, and PostgreSQL (Prisma ORM) featuring Master Data Management (Golden Record) to eliminate data fragmentation, integrating Python clustering and AI recommendation agents across BPMN-standardized pipelines.',
+          stack: ['NestJS', 'Next.js', 'PostgreSQL (Prisma)', 'Python (scikit-learn)', 'Docker'],
           metric:
-            'Real-time end-to-end traceability of financial contracts, eliminating spreadsheet fragmentation.',
-          metricLabel: 'GOVERNANCE & AUDIT',
+            'Full lifecycle governance over +$14.9B COP historical pipeline (298 stalled proposals recovered) and institutional Golden Record consolidation.',
+          metricLabel: 'FINANCIAL IMPACT & GOVERNANCE',
           demoUrl: '#',
           githubUrl: '#',
         },
