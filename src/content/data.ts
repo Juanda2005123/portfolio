@@ -118,7 +118,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           metricLabel: 'IMPACTO FINANCIERO & GOBERNANZA',
           demoUrl: '#',
           githubUrl: '#',
-          image: '/project-consulting-management.png',
+          image: '/project-consulting-management-v2.png',
         },
         {
           id: 'distributed-voting',
@@ -518,7 +518,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           metricLabel: 'FINANCIAL IMPACT & GOVERNANCE',
           demoUrl: '#',
           githubUrl: '#',
-          image: '/project-consulting-management.png',
+          image: '/project-consulting-management-v2.png',
         },
         {
           id: 'distributed-voting',

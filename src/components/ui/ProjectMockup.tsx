@@ -86,7 +86,7 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({
         >
           <div className="relative w-full h-full min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] overflow-hidden rounded-xl">
             <Image
-              src="/project-consulting-management.png"
+              src="/project-consulting-management-v2.png"
               alt="Plataforma de Consultoría & Analítica B2B - Centro de Consultoría Icesi"
               fill
               quality={90}
