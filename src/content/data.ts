@@ -26,7 +26,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       },
       secondaryCta: {
         text: 'Descargar CV',
-        url: '/HV_Juan_David_Quintero_Spanish_Dev.pdf',
+        url: '/HV_Juan_David_Quintero_Spanish_Final.pdf',
       },
       socials: [
         {
@@ -385,7 +385,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       primaryCtaEmail: 'juandavidquintero0805@gmail.com',
       githubUrl: 'https://github.com/Juanda2005123',
       linkedinUrl: 'https://www.linkedin.com/in/juan-david-quintero-software-engineer-full-stack-automation-ai/',
-      cvUrl: '/HV_Juan_David_Quintero_Spanish_Dev.pdf',
+      cvUrl: '/HV_Juan_David_Quintero_Spanish_Final.pdf',
       cardName: 'Juan David Quintero',
       cardRole: 'Ingeniero de Software',
       cardBadge: 'Disponible para contratación · Full-Time',
@@ -428,7 +428,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       },
       secondaryCta: {
         text: 'Download CV',
-        url: '/HV_Juan_David_Quintero_English_Dev.pdf',
+        url: '/HV_Juan_David_Quintero_English_Final.pdf',
       },
       socials: [
         {
@@ -787,7 +787,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
       primaryCtaEmail: 'juandavidquintero0805@gmail.com',
       githubUrl: 'https://github.com/Juanda2005123',
       linkedinUrl: 'https://www.linkedin.com/in/juan-david-quintero-software-engineer-full-stack-automation-ai/',
-      cvUrl: '/HV_Juan_David_Quintero_English_Dev.pdf',
+      cvUrl: '/HV_Juan_David_Quintero_English_Final.pdf',
       cardName: 'Juan David Quintero',
       cardRole: 'Software Engineer',
       cardBadge: 'Available for hire · Full-Time',
