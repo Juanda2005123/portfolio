@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { ProjectMockup } from '@/components/ui/ProjectMockup';
 import { GitHubIcon } from '@/components/ui/Icons';
 import { ExternalLink, ShieldCheck, Clock, FileCheck2, Zap } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface CardStackProps {
   projects: Project[];
@@ -28,6 +29,7 @@ const ProjectCardContent: React.FC<{
   };
   dimValue: MotionValue<number> | number;
 }> = ({ project, index, linksText, dimValue }) => {
+  const { language } = useLanguage();
   const [cardMousePos, setCardMousePos] = useState({ x: 0, y: 0, active: false });
   const haloX = useMotionValue(-9999);
   const haloY = useMotionValue(-9999);
@@ -176,6 +178,14 @@ const ProjectCardContent: React.FC<{
                     <span className="w-1.5 h-1.5 rounded-full bg-[#dcb991] animate-pulse" />
                     {project.category}
                   </span>
+
+                  {/* WIP badge — only shown for in-progress projects */}
+                  {project.wip && (
+                    <span className="inline-flex items-center gap-1.5 self-start text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md border border-amber-500/20 bg-amber-500/[0.06] text-amber-300/55">
+                      <span className="w-1 h-1 rounded-full bg-amber-400/60 animate-pulse" />
+                      {language === 'es' ? 'En Desarrollo' : 'In Development'}
+                    </span>
+                  )}
 
                   {/* Title */}
                   <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white leading-[1.15]">

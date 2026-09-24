@@ -57,6 +57,7 @@ export interface Project {
   caseStudyUrl?: string;
   accentColor?: string;
   image?: string;
+  wip?: boolean;
 }
 
 export interface ProjectsSectionContent {
@@ -85,6 +86,7 @@ export interface OtherProject {
   actionUrl: string;
   actionSecondaryText?: string;
   actionSecondaryUrl?: string;
+  wip?: boolean;
 }
 
 export interface OtherProjectsSectionContent {

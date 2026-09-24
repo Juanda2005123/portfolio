@@ -119,6 +119,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           demoUrl: '#',
           githubUrl: '#',
           image: '/project-consulting-management-v2.png',
+          wip: true,
         },
         {
           id: 'distributed-voting',
@@ -157,6 +158,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           actionUrl: '#',
           actionSecondaryText: 'Código Fuente',
           actionSecondaryUrl: '#',
+          wip: true,
         },
         {
           id: 'intelligent-electives',
@@ -519,6 +521,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           demoUrl: '#',
           githubUrl: '#',
           image: '/project-consulting-management-v2.png',
+          wip: true,
         },
         {
           id: 'distributed-voting',
@@ -557,6 +560,7 @@ export const portfolioData: Record<Language, PortfolioContent> = {
           actionUrl: '#',
           actionSecondaryText: 'Source Code',
           actionSecondaryUrl: '#',
+          wip: true,
         },
         {
           id: 'intelligent-electives',

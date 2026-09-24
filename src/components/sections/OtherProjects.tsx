@@ -41,7 +41,7 @@ const CustomCarouselNav = () => {
 };
 
 export const OtherProjects: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { otherProjects } = t;
 
   return (
@@ -100,6 +100,16 @@ export const OtherProjects: React.FC = () => {
                           {project.category}
                         </span>
                       </div>
+
+                      {/* WIP badge — top-right, only for in-progress projects */}
+                      {project.wip && (
+                        <div className="absolute top-4 right-4">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/55 backdrop-blur-md border border-amber-500/25 text-[10px] font-mono text-amber-300/60 uppercase tracking-wider">
+                            <span className="w-1 h-1 rounded-full bg-amber-400/60 animate-pulse" />
+                            {language === 'es' ? 'En Desarrollo' : 'In Development'}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Content Section (+20% taller, full text without truncation) */}
